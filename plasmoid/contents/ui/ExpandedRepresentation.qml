@@ -107,7 +107,7 @@ Item {
         Instantiator {
             id: buttonGen
             model: { root.mprisSourcesModel() }
-            
+
             onObjectAdded: { playerSelector.insertItem(index, object) }
             onObjectRemoved: { playerSelector.removeItem(object) }
 
@@ -125,7 +125,7 @@ Item {
                     disablePositionUpdate = false
                 }
             }
-            
+
             onModelChanged: {
                 //if model changes, we try to find the current player again
                 for (var i = 0, length = model.length; i < length; i++) {

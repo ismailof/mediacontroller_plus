@@ -259,7 +259,7 @@ Item {
         var operation = service.operationDescription(op);
         return service.startOperationCall(operation);
     }
-    
+
     function mprisSourcesModel () {
 
         var model = [{
