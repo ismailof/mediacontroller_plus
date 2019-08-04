@@ -1,0 +1,8 @@
+#!/bin/bash
+
+METADATA="plasmoid/metadata.desktop"
+VERSION=$(grep "X-KDE-PluginInfo-Version" $METADATA | sed 's/.*=//')
+
+cd plasmoid
+zip -r ../MediaController+_${VERSION}.plasmoid *
+cd ..
