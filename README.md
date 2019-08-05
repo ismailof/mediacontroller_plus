@@ -15,7 +15,7 @@ It provides the same functionality as the traditional mediacontroller widget, gi
     - Minimal View for thinner planels, hiding the album art and progress bar
     - Icon View for smaller sizes (same as in classic mediacontroller)
 
-    
-The selected view is based on the widget size and ratio (suited to my personal taste). If the plasmoid gets some interest, I can try to add some configuration values for the compact view such as minimum/maximum values, and items shown/hidden. 
+
+The selected view is based on the widget size and ratio (suited to my personal taste). If the plasmoid gets some interest, I can try to add some configuration values for the compact view such as minimum/maximum values, and items shown/hidden.
 
 As a disclaimer, it is one of my first tries on qml and plasmoids, and I just wanted to have a nicer media player applet for my panel, while keeping the most of the classic widget untouched. Of course, my main wish would be for this changes to be integrated in the official mediacontroller applet, which I find kind of visually simple in its current state.
