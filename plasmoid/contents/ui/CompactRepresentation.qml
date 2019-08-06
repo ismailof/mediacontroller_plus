@@ -29,7 +29,7 @@ Item {
     readonly property bool iconView: width <= units.gridUnit * 10
     readonly property bool minimalView: height <= units.gridUnit * 2
 
-    Layout.preferredWidth: units.gridUnit * 15
+    Layout.preferredWidth: units.gridUnit * 18
     Layout.fillWidth: true
     Layout.fillHeight: true
 
