@@ -28,9 +28,9 @@ import org.kde.kcoreaddons 1.0 as KCoreAddons
 Item {
     id: expandedRepresentation
 
-    Layout.minimumWidth: Layout.minimumHeight * 1.333
+    Layout.minimumWidth: Layout.minimumHeight * 1.5
     Layout.minimumHeight: units.gridUnit * 7
-    Layout.preferredWidth: Layout.preferredHeight * 1.333
+    Layout.preferredWidth: Layout.preferredHeight * 1.5
     Layout.preferredHeight: units.gridUnit * 22
 
     readonly property bool verticalView: width / height < 1.8
@@ -101,17 +101,16 @@ Item {
             topMargin: 0
             horizontalCenter: parent.horizontalCenter
         }
-        visible: buttonGen.model.length > 2 // more than one player, @multiplex is always there
+        visible: tabButtonInstantiator.model.length > 2 // more than one player, @multiplex is always there
 
         Instantiator {
-            id: buttonGen
+            id: tabButtonInstantiator
             model: { root.mprisSourcesModel() }
 
             onObjectAdded: { playerSelector.insertItem(index, object) }
             onObjectRemoved: { playerSelector.removeItem(object) }
 
             delegate: PlasmaComponents3.TabButton {
-                //height: playerSelector.height
                 checked: modelData["source"] == mpris2Source.current
                 text: modelData["text"]
                 contentItem: PlasmaCore.IconItem {
