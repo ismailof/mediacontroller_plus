@@ -55,6 +55,8 @@ Item {
 
     property bool noPlayer: mpris2Source.sources.length <= 1
 
+    property var mprisSourcesModel: []
+
     readonly property bool canControl: (!root.noPlayer && mpris2Source.currentData.CanControl) || false
     readonly property bool canGoPrevious: (canControl && mpris2Source.currentData.CanGoPrevious) || false
     readonly property bool canGoNext: (canControl && mpris2Source.currentData.CanGoNext) || false
@@ -195,16 +197,22 @@ Item {
         engine: "mpris2"
         connectedSources: sources
 
+        onSourceAdded: {
+            updateMprisSourcesModel()
+        }
+
         onSourceRemoved: {
             // if player is closed, reset to multiplex source
             if (source === current) {
                 current = multiplexSource
             }
+            updateMprisSourcesModel()
         }
     }
 
     Component.onCompleted: {
         mpris2Source.serviceForSource("@multiplex").enableGlobalShortcuts();
+        updateMprisSourcesModel()
     }
 
     function togglePlaying() {
@@ -260,7 +268,7 @@ Item {
         return service.startOperationCall(operation);
     }
 
-    function mprisSourcesModel () {
+    function updateMprisSourcesModel () {
 
         var model = [{
             'text': i18n("Choose player automatically"),
@@ -284,7 +292,7 @@ Item {
             });
         }
 
-        return model;
+        root.mprisSourcesModel = model;
     }
 
 

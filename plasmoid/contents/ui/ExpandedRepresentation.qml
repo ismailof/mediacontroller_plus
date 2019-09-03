@@ -18,7 +18,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-import QtQuick 2.4
+import QtQuick 2.11
 import QtQuick.Layouts 1.3
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents3
@@ -105,7 +105,7 @@ Item {
 
         Instantiator {
             id: tabButtonInstantiator
-            model: { root.mprisSourcesModel() }
+            model: { root.mprisSourcesModel }
 
             onObjectAdded: { playerSelector.insertItem(index, object) }
             onObjectRemoved: { playerSelector.removeItem(object) }
