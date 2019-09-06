@@ -6,4 +6,4 @@ prefix.sh
 regenerateindex.sh
 .directory
 org.kde.mediacontroller_plus.appdata.xml
-
+org.kde.mediacontroller_plus-plasmoids-metadata.json
