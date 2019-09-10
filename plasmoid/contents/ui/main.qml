@@ -133,16 +133,6 @@ Item {
         plasmoid.setActionSeparator("playerActionsSeparator")
     }
 
-    // HACK Some players like Amarok take quite a while to load the next track
-    // this avoids having the plasmoid jump between popup and panel
-    onStateChanged: {
-        if (state != "") {
-            plasmoid.status = PlasmaCore.Types.ActiveStatus
-        } else {
-            updatePlasmoidStatusTimer.restart()
-        }
-    }
-
     onMprisPositionChanged: {
         position = mprisPosition
     }
@@ -152,6 +142,17 @@ Item {
     onTrackChanged: {
         position = 0
         retrievePosition()
+    }
+
+
+    // HACK Some players like Amarok take quite a while to load the next track
+    // this avoids having the plasmoid jump between popup and panel
+    onStateChanged: {
+        if (state != "") {
+            plasmoid.status = PlasmaCore.Types.ActiveStatus
+        } else {
+            updatePlasmoidStatusTimer.restart()
+        }
     }
 
     Timer {
@@ -167,7 +168,7 @@ Item {
     }
 
     Timer {
-        id: unpdateProgressTimer
+        id: updateProgressTimer
 
         interval: 1000 / rate
         repeat: true
@@ -283,8 +284,6 @@ Item {
                 continue
             }
 
-            // we could show the pretty player name ("Identity") here but then we
-            // would have to connect all sources just for this
             model.push({
                 'text': mpris2Source.data[source]["Identity"],
                 'icon': mpris2Source.data[source]["Desktop Icon Name"] || mpris2Source.data[source]["Desktop Entry"] || source,
