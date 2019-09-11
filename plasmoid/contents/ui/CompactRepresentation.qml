@@ -26,8 +26,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: compactRepresentation
 
-    readonly property bool iconView: false //plasmoid.width <= units.gridUnit * 8
-    readonly property bool minimalView: false //plasmoid.height <= units.gridUnit * 2
+    readonly property bool iconView: width <= units.gridUnit * 8
+    readonly property bool minimalView: height <= units.gridUnit * 2
 
     Layout.preferredWidth: units.gridUnit * 18
     Layout.fillWidth: true

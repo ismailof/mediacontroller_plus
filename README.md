@@ -3,7 +3,7 @@ This is a modified version of mediacontroller plasma5 widget.
 
 It provides the same functionality as the traditional mediacontroller widget, giving you control over every media player in your system (through the MPRIS2 protocol), but it adapts to more factor forms and sizes, allowing you to have a nice media control even on the panel.
 
-![mediacontroller+ gallery](MediaController+.png)
+![mediacontroller+ gallery](plasmoid/contents/screenshot.png)
 
 * Full Representation (_desktop_, _pop-up_):
     - Vertical View (same as in classic mediacontroller)
