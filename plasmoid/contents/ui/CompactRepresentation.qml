@@ -26,12 +26,14 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: compactRepresentation
 
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+
     readonly property bool iconView: width <= units.gridUnit * 8
     readonly property bool minimalView: height <= units.gridUnit * 2
 
-    Layout.preferredWidth: units.gridUnit * 18
-    Layout.fillWidth: true
-    Layout.fillHeight: true
+    Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * units.gridUnit
+    Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * units.gridUnit || undefined
 
 
     Item {
@@ -39,7 +41,7 @@ Item {
         z: 200
 
         anchors.fill: parent
-        visible: !minimalView && !iconView
+        visible: plasmoid.configuration.showProgressBar && !minimalView && !iconView
 
         Item {
             id: progress
@@ -89,7 +91,7 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             textAlignment: Text.AlignLeft
-            showAlbumLine: trackInfo.width > units.gridUnit * 9
+            showAlbumLine: trackInfo.width > units.gridUnit * 12
             spacing: 0
         }
 
@@ -97,6 +99,8 @@ Item {
             id: playerControls
             Layout.alignment: Qt.AlignCenter
             compactView: true
+            controlSize: minimalView? units.iconSizes.smallMedium: units.iconSizes.medium
+            hideDisabledControls: plasmoid.configuration.hideDisabledControls
         }
 
         visible: !iconView

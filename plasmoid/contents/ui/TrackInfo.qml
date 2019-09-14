@@ -25,8 +25,9 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 Column {
     id: trackInfo
 
-    property alias textAlignment: song.horizontalAlignment
+    property alias textAlignment: songText.horizontalAlignment
     property bool showAlbumLine: true
+    property string album: { getAlbum() }
 
 
     function getAlbum() {
@@ -65,7 +66,7 @@ Column {
 
 
     PlasmaExtras.Heading {
-        id: song
+        id: songText
         width: parent.width
         height: undefined
         level: 4
@@ -77,13 +78,13 @@ Column {
             if (!root.track) {
                 return i18n("No media playing")
             }
-            return (showAlbumLine && root.artist) ? i18nc("artist – track", "%1 – %2", root.artist, root.track) : root.track
+            return (showAlbumLine && album && root.artist) ? i18nc("artist – track", "%1 – %2", root.artist, root.track) : root.track
         }
         textFormat: Text.PlainText
     }
 
     PlasmaExtras.Heading {
-        id: album
+        id: albumText
         width: parent.width
         height: undefined
         level: 5
@@ -92,7 +93,7 @@ Column {
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
         visible: text !== ""
-        text: showAlbumLine ? getAlbum() : root.artist || ""
+        text: (showAlbumLine && album)? getAlbum() : root.artist || ""
         textFormat: Text.PlainText
     }
 }

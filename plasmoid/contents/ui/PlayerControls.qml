@@ -26,9 +26,10 @@ Row {
     id: playerControls
 
     property bool enabled: root.canControl
-    property bool compactView: false  // In compactView diabled controls are hidden
-    property int controlSize: compactView? units.iconSizes.medium: units.iconSizes.large
+    property bool compactView: false
+    property bool hideDisabledControls: true
 
+    property int controlSize: compactView? units.iconSizes.medium: units.iconSizes.large
     spacing: compactView? 0 : units.largeSpacing
 
     PlasmaComponents3.ToolButton {
@@ -36,7 +37,7 @@ Row {
         width: controlSize
         height: width
         enabled: playerControls.enabled && root.canGoPrevious
-        visible: compactView? enabled : true
+        visible: (compactView && hideDisabledControls)? enabled : true
         icon.name: LayoutMirroring.enabled ? "media-skip-forward" : "media-skip-backward"
         onClicked: {
             //root.position = 0    // Let the media start from beginning. Bug 362473
@@ -57,7 +58,7 @@ Row {
         width: controlSize
         height: width
         enabled: playerControls.enabled && root.canGoNext
-        visible: compactView? enabled : true
+        visible: (compactView && hideDisabledControls)? enabled : true
         icon.name: LayoutMirroring.enabled ? "media-skip-backward" : "media-skip-forward"
         onClicked: {
             //root.position = 0    // Let the media start from beginning. Bug 362473
