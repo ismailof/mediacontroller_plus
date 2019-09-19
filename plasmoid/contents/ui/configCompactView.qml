@@ -17,7 +17,7 @@
 
 import QtQuick 2.5
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.5 as QQC2
 
 Item {
     id: compactViewConfig
@@ -32,7 +32,7 @@ Item {
         rowSpacing: units.smallSpacing
         Layout.fillWidth: true
 
-        Label {
+        QQC2.Label {
             text: i18n("Width Range:")
             Layout.alignment: Qt.AlignRight
             Layout.bottomMargin: units.largeSpacing
@@ -44,24 +44,24 @@ Item {
             Layout.alignment: Qt.AlignTop
             Layout.bottomMargin: units.largeSpacing
 
-            Label {
+            QQC2.Label {
                 id: lbl_minWidth
                 text: Math.round(widthSlider.proxyFirstValue * units.gridUnit) + "px"
                 Layout.preferredWidth: 50
                 horizontalAlignment: Text.AlignRight
             }
 
-            RangeSlider {
+            QQC2.RangeSlider {
                 id: widthSlider
                 Layout.fillWidth: true
                 from: 1
                 to: 101
                 stepSize: 1
-                snapMode: RangeSlider.SnapAlways
+                snapMode: QQC2.RangeSlider.SnapAlways
                 first.value: 18
                 second.value: to
 
-                //HACK: On QT 2.5 `RangeSlider` values are not allowed as an alias
+                //On QT 2.5 `RangeSlider` values are not allowed as an alias
                 property int proxySecondValue: 0
                 property int proxyFirstValue: 1
 
@@ -71,7 +71,7 @@ Item {
                 onProxySecondValueChanged: second.value = proxySecondValue ? proxySecondValue : to
             }
 
-            Label {
+            QQC2.Label {
                 id: lbl_maximumWidth
                 text: (widthSlider.second.position == 1.0) ? i18n("No limit")
                                                            : Math.round(widthSlider.proxySecondValue * units.gridUnit) + "px"
@@ -80,19 +80,19 @@ Item {
             }
         }
 
-        Label {
+        QQC2.Label {
             text: i18n("Display:")
             Layout.alignment: Qt.AlignRight
         }
 
-        CheckBox {
+        QQC2.CheckBox {
             id: showProgressBar
             text: i18n("Show progress bar")
         }
 
-        Label {}
+        QQC2.Label {}
 
-        CheckBox {
+        QQC2.CheckBox {
             id: hideDisabledControls
             text: i18n("Hide controls when not available")
         }
