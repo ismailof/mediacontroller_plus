@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright 2013 Sebastian Kügler <sebas@kde.org>                       *
- *   Copyright 2014, 2016 Kai Uwe Broulik <kde@privat.broulik.de>          *
+ *   Copyright 2019 Ismael Asensio <ismailof@git.com>                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Library General Public License as       *
@@ -18,6 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
+import QtQml 2.2
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -170,11 +170,17 @@ Item {
 
             drop.accept()
 
-            var service = mpris2Source.serviceForSource(mpris2Source.current);
-            var operation = service.operationDescription("OpenUri");
-            operation.uri = drop.text
+            if (root.noPlayer) {
+                // No player selected. Open uri with default desktop application
+                Qt.openUrlExternally(drop.text)
+            } else {
+                //Open URI using mpris method
+                var service = mpris2Source.serviceForSource(mpris2Source.current);
+                var operation = service.operationDescription("OpenUri");
+                operation.uri = drop.text
 
-            service.startOperationCall(operation)
+                service.startOperationCall(operation)
+            }
         }
     }
 }

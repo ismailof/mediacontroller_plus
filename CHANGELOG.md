@@ -1,6 +1,9 @@
 Changelog
 =========
 
+**v0.2.1**
+- Open files and URLs on drag&drop even when no player selected
+
 **v0.2.0**
 
 - Add configuration options to the panel view:
