@@ -15,7 +15,7 @@ You can download it on the [KDE Store](https://store.kde.org/p/1317639/), or use
 * Compact Representation (_panel_, _systray_):
     - Different Views:
         - Compact View for panels. It keeps most of the functionallity in a smaller size: icon/album art, track/artist, player controls and progress bar which uses the same style as the taskbar progress jobs.
-        - Minimal View for thinner planels, hiding the album art and progress bar
+        - Minimal View for thinner panels, hiding the album art and progress bar
         - Icon View for smaller sizes (same as in classic mediacontroller)
     - Minimum (preferred) / Maximum widths configurable
     - Display options to show/hide progressbar

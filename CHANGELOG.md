@@ -5,7 +5,7 @@ Changelog
 
 - Add configuration options to the panel view:
     * Minimum/maximum width
-    * Show progressbar
+    * Show progress bar
     * Hide disabled controls
 
 **v0.1.1**
