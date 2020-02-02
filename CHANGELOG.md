@@ -1,6 +1,9 @@
 Changelog
 =========
 
+**v0.2.2**
+- Hability to show/hide background (works from Plasma 5.18)
+
 **v0.2.1**
 - Open files and URLs on drag&drop even when no player selected
 

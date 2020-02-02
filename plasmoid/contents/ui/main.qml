@@ -79,6 +79,8 @@ Item {
     Plasmoid.toolTipTextFormat: Text.PlainText
     Plasmoid.status: PlasmaCore.Types.PassiveStatus
 
+    Plasmoid.backgroundHints: PlasmaCore.Types.StandardBackground | PlasmaCore.Types.ConfigurableBackground
+
     Plasmoid.onContextualActionsAboutToShow: {
         plasmoid.clearActions()
 
