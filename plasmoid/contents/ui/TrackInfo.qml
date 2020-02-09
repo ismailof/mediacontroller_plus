@@ -19,16 +19,17 @@
  ***************************************************************************/
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.2
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 
-Column {
+GridLayout {
     id: trackInfo
 
     property alias textAlignment: songText.horizontalAlignment
     property bool showAlbumLine: true
+    property bool horizontal: false
     property string album: { getAlbum() }
-
 
     function getAlbum() {
         var metadata = root.currentMetadata
@@ -64,11 +65,9 @@ Column {
         return ""
     }
 
-
     PlasmaExtras.Heading {
         id: songText
-        width: parent.width
-        height: undefined
+        Layout.fillWidth: true
         level: 4
         horizontalAlignment: Text.AlignHCenter
 
@@ -85,15 +84,17 @@ Column {
 
     PlasmaExtras.Heading {
         id: albumText
-        width: parent.width
-        height: undefined
+        Layout.fillWidth: true
+        Layout.row: horizontal ? 0 : 1
+        Layout.column: horizontal ? 1 : 0
+
         level: 5
         opacity: 0.6
         horizontalAlignment: textAlignment
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
         visible: text !== ""
-        text: (showAlbumLine && album)? getAlbum() : root.artist || ""
+        text: (showAlbumLine && album)? album : root.artist || ""
         textFormat: Text.PlainText
     }
 }

@@ -29,8 +29,8 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    readonly property bool iconView: width <= units.gridUnit * 8
-    readonly property bool minimalView: height <= units.gridUnit * 2
+    readonly property bool iconView: width < units.gridUnit * 8
+    readonly property bool minimalView: height < units.gridUnit * 3
 
     Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * units.gridUnit
     Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * units.gridUnit || undefined
@@ -72,7 +72,6 @@ Item {
         anchors {
             fill: parent
             margins: 0
-            topMargin: minimalView? -10 : undefined
         }
 
         AlbumArt {
@@ -91,8 +90,9 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             textAlignment: Text.AlignLeft
-            showAlbumLine: trackInfo.width > units.gridUnit * 12
-            spacing: 0
+            showAlbumLine: width > units.gridUnit * (minimalView ? 20 : 12)
+            horizontal: minimalView
+            rowSpacing: 0
         }
 
         PlayerControls {
