@@ -38,7 +38,7 @@ Item {
 
     Item {
         id: miniProgressBar
-        z: 200
+        z: 0
 
         anchors.fill: parent
         visible: plasmoid.configuration.showProgressBar && !minimalView && !iconView
@@ -66,7 +66,7 @@ Item {
 
     RowLayout {
 
-        z: 0
+        z: 100
         spacing: units.smallSpacing
 
         anchors {
@@ -75,7 +75,6 @@ Item {
         }
 
         AlbumArt {
-            Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.minimumWidth: height
