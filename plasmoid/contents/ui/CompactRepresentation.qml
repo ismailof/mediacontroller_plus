@@ -41,7 +41,7 @@ Item {
         z: 0
 
         anchors.fill: parent
-        visible: plasmoid.configuration.showProgressBar && !minimalView && !iconView
+        visible: plasmoid.configuration.showProgressBar && !iconView
 
         Item {
             id: progress

@@ -30,10 +30,9 @@ GridLayout {
     property alias textAlignment: mainLabel.horizontalAlignment
     property bool oneLiner: false
 
-    readonly property string album: { getAlbum() }
     readonly property bool showAlbum: !oneLiner && album && width > units.gridUnit * 12
 
-    function getAlbum() {
+    readonly property string album: {
         var metadata = root.currentMetadata
 
         if (!metadata) {
@@ -99,7 +98,9 @@ GridLayout {
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
         visible: !oneLiner && text.length > 0
-        text: (showAlbum && album) ? i18nc("artist / album", "%1 / %2", root.artist, album) : root.artist
+        text: (!showAlbum || !album) ? root.artist :
+                      (!root.artist) ? album
+                                     : i18nc("artist / album", "%1 / %2", root.artist, album)
         textFormat: Text.PlainText
     }
 }
