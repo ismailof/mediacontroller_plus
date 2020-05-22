@@ -26,7 +26,7 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 GridLayout {
     id: trackInfo
 
-    property alias textAlignment: songText.horizontalAlignment
+    property alias textAlignment: mainLabel.horizontalAlignment
     property bool oneLiner: false
 
     readonly property string album: { getAlbum() }
@@ -67,7 +67,7 @@ GridLayout {
     }
 
     PlasmaExtras.Heading {
-        id: songText
+        id: mainLabel
         Layout.fillWidth: true
         level: 4
         horizontalAlignment: Text.AlignHCenter
@@ -78,16 +78,16 @@ GridLayout {
             if (!root.track) {
                 return i18n("No media playing")
             }
-            if (!root.artist || (!showAlbum && !oneLiner)) {
-                return root.track
+            if (oneLiner && root.artist) {
+                return i18nc("artist – track", "%1 – %2", root.artist, root.track)
             }
-            return i18nc("artist – track", "%1 – %2", root.artist, root.track)
+            return root.track
         }
         textFormat: Text.PlainText
     }
 
     PlasmaExtras.Heading {
-        id: albumText
+        id: secondLabel
         Layout.fillWidth: true
         Layout.row: oneLiner ? 0 : 1
         Layout.column: oneLiner ? 1 : 0
@@ -98,7 +98,7 @@ GridLayout {
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
         visible: !oneLiner && text.length > 0
-        text: showAlbum ? album : root.artist || ""
+        text: (showAlbum && album) ? i18nc("artist / album", "%1 / %2", root.artist, album) : root.artist
         textFormat: Text.PlainText
     }
 }
