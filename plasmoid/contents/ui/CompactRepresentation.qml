@@ -89,8 +89,7 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             textAlignment: Text.AlignLeft
-            showAlbumLine: width > units.gridUnit * (minimalView ? 20 : 12)
-            horizontal: minimalView
+            oneLiner: minimalView
             rowSpacing: 0
         }
 

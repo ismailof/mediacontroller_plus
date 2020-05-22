@@ -27,9 +27,10 @@ GridLayout {
     id: trackInfo
 
     property alias textAlignment: songText.horizontalAlignment
-    property bool showAlbumLine: true
-    property bool horizontal: false
-    property string album: { getAlbum() }
+    property bool oneLiner: false
+
+    readonly property string album: { getAlbum() }
+    readonly property bool showAlbum: !oneLiner && album && width > units.gridUnit * 12
 
     function getAlbum() {
         var metadata = root.currentMetadata
@@ -77,7 +78,10 @@ GridLayout {
             if (!root.track) {
                 return i18n("No media playing")
             }
-            return (showAlbumLine && album && root.artist) ? i18nc("artist – track", "%1 – %2", root.artist, root.track) : root.track
+            if (!root.artist || (!showAlbum && !oneLiner)) {
+                return root.track
+            }
+            return i18nc("artist – track", "%1 – %2", root.artist, root.track)
         }
         textFormat: Text.PlainText
     }
@@ -85,16 +89,16 @@ GridLayout {
     PlasmaExtras.Heading {
         id: albumText
         Layout.fillWidth: true
-        Layout.row: horizontal ? 0 : 1
-        Layout.column: horizontal ? 1 : 0
+        Layout.row: oneLiner ? 0 : 1
+        Layout.column: oneLiner ? 1 : 0
 
         level: 5
         opacity: 0.6
         horizontalAlignment: textAlignment
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
-        visible: text !== ""
-        text: (showAlbumLine && album)? album : root.artist || ""
+        visible: !oneLiner && text.length > 0
+        text: showAlbum ? album : root.artist || ""
         textFormat: Text.PlainText
     }
 }
