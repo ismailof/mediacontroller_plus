@@ -32,8 +32,8 @@ import QtGraphicalEffects 1.0
 Item {
     id: expandedRepresentation
 
-    Layout.minimumWidth: units.gridUnit * 15
-    Layout.minimumHeight: units.gridUnit * 23
+    Layout.minimumWidth: units.gridUnit * 14
+    Layout.minimumHeight: units.gridUnit * 14
     Layout.preferredWidth: Layout.minimumWidth * 1.5
     Layout.preferredHeight: Layout.minimumHeight * 1.5
 
@@ -173,36 +173,12 @@ Item {
 
                 spacing: units.largeSpacing
 
-                Item {
+                AlbumArt {
+                    id: albumArt
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.preferredWidth: 50
-
-                    Image { // Album Art
-                        id: albumArt
-
-                        anchors.fill: parent
-
-                        visible: Media.hasAlbumArt && status === Image.Ready
-
-                        asynchronous: true
-
-                        horizontalAlignment: Image.AlignRight
-                        verticalAlignment: Image.AlignVCenter
-                        fillMode: Image.PreserveAspectFit
-
-                        source: Media.albumArt
-                    }
-
-                    PlasmaCore.IconItem { // Fallback
-                        visible: !albumArt.visible
-                        source: Media.fallbackIcon
-
-                        anchors {
-                            fill: parent
-                            margins: units.largeSpacing*2
-                        }
-                    }
+                    iconMargins: units.largeSpacing * 2
                 }
 
                 ColumnLayout { // Details Column

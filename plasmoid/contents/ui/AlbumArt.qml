@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright 2013 Sebastian Kügler <sebas@kde.org>                       *
  *   Copyright 2014, 2016 Kai Uwe Broulik <kde@privat.broulik.de>          *
+ *   Copyright 2020 Carson Black <uhhadd@gmail.com>                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Library General Public License as       *
@@ -23,34 +24,33 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 
 Item {
+    readonly property double artRatio: albumArt.visible ? (albumArt.sourceSize.width / albumArt.sourceSize.height) : 1
+    property int iconMargins: 0     // Setting this as an alias property makes plasmoidviewer segfault
 
-    property alias artSize: albumArt.sourceSize
+    Image { // Album Art
+        id: albumArt
 
-    PlasmaCore.IconItem {
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
+        anchors.fill: parent
 
-        height: Math.min(parent.height, Math.max(units.iconSizes.large, Math.round(parent.height / 2)))
-        width: height
+        visible: Media.hasAlbumArt && status === Image.Ready
 
-        source: mpris2Source.currentData["Desktop Icon Name"]
-        visible: !albumArt.visible
+        asynchronous: true
 
-        usesPlasmaTheme: false
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignVCenter
+        fillMode: Image.PreserveAspectFit
+
+        source: Media.albumArt
     }
 
-    Image {
-        id: albumArt
+    PlasmaCore.IconItem { // Fallback Icon
+        id: mediaIcon
+        visible: !albumArt.visible
+        source: Media.fallbackIcon
+
         anchors {
             fill: parent
+            margins: iconMargins
         }
-
-        source: root.albumArt
-        asynchronous: true
-        fillMode: Image.PreserveAspectFit
-        sourceSize: Qt.size(height, height)
-        visible: !!root.track && status === Image.Ready
     }
 }

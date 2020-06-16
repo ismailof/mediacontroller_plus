@@ -25,44 +25,44 @@ import org.kde.plasma.components 3.0 as PlasmaComponents3
 Row {
     id: playerControls
 
-    property bool enabled: root.canControl
+    property bool enabled: Media.canControl
     property bool compactView: false
     property bool hideDisabledControls: true
 
-    property int controlSize: compactView? units.iconSizes.medium: units.iconSizes.large
-    spacing: compactView? 0 : units.largeSpacing
+    property int controlSize: compactView ? units.iconSizes.medium : units.iconSizes.large
+    spacing: compactView ? 0 : units.largeSpacing
 
     PlasmaComponents3.ToolButton {
         anchors.verticalCenter: parent.verticalCenter
         width: controlSize
         height: width
-        enabled: playerControls.enabled && root.canGoPrevious
+        enabled: playerControls.enabled && Media.canGoPrevious
         visible: (compactView && hideDisabledControls)? enabled : true
         icon.name: LayoutMirroring.enabled ? "media-skip-forward" : "media-skip-backward"
         onClicked: {
             //root.position = 0    // Let the media start from beginning. Bug 362473
-            root.action_previous()
+            Media.action_previous()
         }
     }
 
     PlasmaComponents3.ToolButton {
         width: Math.round(controlSize * 1.5)
         height: width
-        enabled: root.state == "playing" ? root.canPause : root.canPlay
-        icon.name: root.state == "playing" ? "media-playback-pause" : "media-playback-start"
-        onClicked: root.togglePlaying()
+        enabled: Media.state == "playing" ? Media.canPause : Media.canPlay
+        icon.name: Media.state == "playing" ? "media-playback-pause" : "media-playback-start"
+        onClicked: Media.togglePlaying()
     }
 
     PlasmaComponents3.ToolButton {
         anchors.verticalCenter: parent.verticalCenter
         width: controlSize
         height: width
-        enabled: playerControls.enabled && root.canGoNext
+        enabled: playerControls.enabled && Media.canGoNext
         visible: (compactView && hideDisabledControls)? enabled : true
         icon.name: LayoutMirroring.enabled ? "media-skip-backward" : "media-skip-forward"
         onClicked: {
             //root.position = 0    // Let the media start from beginning. Bug 362473
-            root.action_next()
+            Media.action_next()
         }
     }
 }

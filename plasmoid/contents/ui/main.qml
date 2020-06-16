@@ -29,8 +29,8 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 Item {
     id: root
 
-    Plasmoid.switchWidth: units.gridUnit * 14
-    Plasmoid.switchHeight: units.gridUnit * 10
+    Plasmoid.switchWidth: units.gridUnit * 14.5
+    Plasmoid.switchHeight: units.gridUnit * 10.5
     Plasmoid.icon: "media-playback-playing"
     Plasmoid.toolTipMainText: i18n("No media playing")
     Plasmoid.toolTipSubText: Media.currentPlayer

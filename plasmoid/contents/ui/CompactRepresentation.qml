@@ -22,6 +22,7 @@ import QtQml 2.2
 import QtQuick 2.8
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 
 Item {
@@ -76,22 +77,65 @@ Item {
         }
 
         AlbumArt {
+            visible: !minimalView
+
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.minimumWidth: height
-            Layout.maximumWidth: (artSize[0] / artSize[1]) * height
+            Layout.maximumWidth: Math.min(height * artRatio,  units.iconSizes.enormous)
             Layout.margins: units.smallSpacing
-
-            visible: !minimalView
         }
 
-        TrackInfo {
+        ColumnLayout {
             id: trackInfo
+
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
-            textAlignment: Text.AlignLeft
-            oneLiner: minimalView
-            rowSpacing: 0
+            spacing: 0
+
+
+            PlasmaExtras.Heading {
+                id: mainLabel
+                Layout.fillWidth: true
+                level: 4
+                horizontalAlignment: Text.AlignLeft
+
+                maximumLineCount: 1
+                elide: Text.ElideRight
+                text: {
+                    if (!Media.currentTrack) {
+                        return i18n("No media playing")
+                    }
+                    if (minimalView && Media.currentArtist) {
+                        return i18nc("artist – track", "%1 – %2", Media.currentArtist, Media.currentTrack)
+                    }
+                    return Media.currentTrack
+                }
+                textFormat: Text.PlainText
+            }
+
+            PlasmaExtras.Heading {
+                id: secondLabel
+                Layout.fillWidth: true
+
+                level: 5
+                opacity: 0.6
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.NoWrap
+                elide: Text.ElideRight
+                textFormat: Text.PlainText
+                visible: !minimalView
+
+                text: {
+                    if (!Media.currentAlbum) {
+                        return Media.currentArtist
+                    }
+                    if (!Media.currentArtist) {
+                        return Media.currentAlbum
+                    }
+                    return i18nc("artist / album", "%1 / %2", Media.currentArtist,  Media.currentAlbum)
+                }
+            }
         }
 
         PlayerControls {
