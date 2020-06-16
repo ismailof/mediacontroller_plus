@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright 2020 Carson Black <uhhadd@gmail.com>                        *
  *   Copyright 2020 Ismael Asensio <ismailof@git.com>                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +19,7 @@
  ***************************************************************************/
 
 import QtQml 2.2
-import QtQuick 2.4
+import QtQuick 2.8
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
 
@@ -51,7 +52,7 @@ Item {
                 bottom: parent.bottom
             }
 
-            width: parent.width * root.position / root.length
+            width: parent.width * Media.position / Media.songLenght
             clip: true
 
             PlasmaCore.FrameSvgItem {
@@ -106,14 +107,18 @@ Item {
 
     PlasmaCore.IconItem {
         id: playerStatusIcon
-
-        source: root.state === "playing" ? "media-playback-playing" :
-                root.state === "paused" ?  "media-playback-paused" :
-                                            "media-playback-stopped"
+        anchors.fill: parent
+        source: {
+            if (Media.state === "playing") {
+                return "media-playback-playing"
+            } else if (Media.state == "paused") {
+                return "media-playback-paused"
+            } else {
+                return "media-playback-stopped"
+            }
+        }
         active: compactMouse.containsMouse
         visible: iconView
-
-        anchors.fill: parent
     }
 
     MouseArea {
@@ -125,33 +130,26 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.BackButton | Qt.ForwardButton
 
-        onWheel: {
-            var service = mpris2Source.serviceForSource(mpris2Source.current)
-            var operation = service.operationDescription("ChangeVolume")
-            operation.delta = (wheel.angleDelta.y / 120) * 0.03
-            operation.showOSD = true
-            service.startOperationCall(operation)
-        }
+        onWheel: Media.adjustVolume((wheel.angleDelta.y / 120) * 0.03)
 
         onClicked: {
             switch (mouse.button) {
-                case Qt.MiddleButton:
-                    root.togglePlaying()
+            case Qt.MiddleButton:
+                Media.togglePlaying()
+                break
+            case Qt.BackButton:
+                Media.perform(Media.previous)
+                break
+            case Qt.ForwardButton:
+                Media.perform(Media.next)
+                break
+            default:
+            /*  if (!iconView && mpris2Source.currentData.CanRaise) {
+                    Media.perform(Media.raise)
                     break
-                case Qt.BackButton:
-                    root.action_previous()
-                    breakunits.smallSpacing
-                case Qt.ForwardButton:
-                    root.action_next()
-                    break
-                default:
-                    plasmoid.expanded = !plasmoid.expanded
-                /*  if (!iconView && mpris2Source.currentData.CanRaise) {
-                        root.action_open()
-                    } else {
-                        plasmoid.expanded = !plasmoid.expanded
-                    }
-                    */
+                }
+            */
+                plasmoid.expanded = !plasmoid.expanded
             }
         }
     }
@@ -168,16 +166,10 @@ Item {
 
             drop.accept()
 
-            if (root.noPlayer) {
-                // No player selected. Open uri with default desktop application
+            if (Media.noPlayers) {
                 Qt.openUrlExternally(drop.text)
             } else {
-                //Open URI using mpris method
-                var service = mpris2Source.serviceForSource(mpris2Source.current);
-                var operation = service.operationDescription("OpenUri");
-                operation.uri = drop.text
-
-                service.startOperationCall(operation)
+                Media.openUri(drop.text)
             }
         }
     }
