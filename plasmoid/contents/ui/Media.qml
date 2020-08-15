@@ -142,6 +142,7 @@ QtObject {
     }
 
     function updateSources() {
+        /* Qt 5.14 - This doesn't work as expected
         media.sources = Array.from(mpris2Source.sources)
                              .filter(source => source !== mpris2Source.multiplexSource)
                              .map(source => {
@@ -156,6 +157,28 @@ QtObject {
                                 'icon': 'emblem-favorite',
                                 'source': mpris2Source.multiplexSource
                             })
+        */
+        var model = [media.sources = {
+            'text': i18n("Choose player automatically"),
+            'icon': 'emblem-favorite',
+            'source': mpris2Source.multiplexSource
+        }]
+
+        var sources = mpris2Source.sources
+        for (var i = 0, length = sources.length; i < length; ++i) {
+            var source = sources[i]
+            if (source === mpris2Source.multiplexSource) {
+                continue
+            }
+
+            model.push({
+                'text': mpris2Source.data[source]["Identity"],
+                'icon': mpris2Source.data[source]["Desktop Icon Name"] || mpris2Source.data[source]["Desktop Entry"] || source,
+                'source': source
+            });
+        }
+
+        media.sources = model;
     }
 
     function serviceOp(src, op) {
