@@ -58,21 +58,10 @@ Item {
         function onSongLengthChanged(length) {
             Media.lockPositionUpdate = true
             {
-                seekSlider.value = 0
-                seekSlider.to = Media.songLength
+                progressBar.to = Media.songLength
                 Media.retrievePosition()
             }
             Media.lockPositionUpdate = false
-        }
-        function onPositionChanged(position) {
-            // Don't interrupt an active drag.
-            if (!seekSlider.pressed && !keyPressed) {
-                Media.lockPositionUpdate = true
-                {
-                    seekSlider.value = Media.position
-                }
-                Media.lockPositionUpdate = false
-            }
         }
     }
 
@@ -284,6 +273,8 @@ Item {
                 id: seekSlider
                 Layout.fillWidth: true
                 z: 999
+                from: progressBar.from
+                to: progressBar.to
                 value: 0
                 visible: Media.canSeek
 
@@ -291,26 +282,6 @@ Item {
                     if (!Media.lockPositionUpdate) {
                         // delay setting the position to avoid race conditions
                         queuedPositionUpdate.restart()
-                    }
-                }
-
-                Timer {
-                    id: seekTimer
-                    interval: 1000 / Media.playbackRate
-                    repeat: true
-                    running: Media.state === "playing" && plasmoid.expanded && !keyPressed && interval > 0 && seekSlider.to >= 1000000
-                    onTriggered: {
-                        // some players don't continuously update the seek slider position via mpris
-                        // add one second; value in microseconds
-                        if (!seekSlider.pressed) {
-                            Media.lockPositionUpdate = true
-                            if (seekSlider.value == seekSlider.to) {
-                                Media.retrievePosition()
-                            } else {
-                                seekSlider.value += 1000000
-                            }
-                            Media.lockPositionUpdate = false
-                        }
                     }
                 }
             }
@@ -322,13 +293,19 @@ Item {
                 Layout.preferredHeight: seekSlider.height
 
                 PlasmaComponents3.ProgressBar { // Time Remaining
-                    value: seekSlider.value
-                    from: seekSlider.from
-                    to: seekSlider.to
+                    id: progressBar
+                    value: root.displayPosition
 
                     Layout.fillWidth: true
                     Layout.fillHeight: false
                     Layout.alignment: Qt.AlignVCenter
+
+                    onValueChanged: {
+                        // Don't interrupt an active drag.
+                        if (!seekSlider.pressed && !keyPressed) {
+                            seekSlider.value = value
+                        }
+                    }
                 }
             }
 
