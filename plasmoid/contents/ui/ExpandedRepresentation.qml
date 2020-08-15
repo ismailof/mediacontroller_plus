@@ -103,24 +103,21 @@ Item {
         }
         visible: tabButtonInstantiator.model.length > 2 // more than one player, @multiplex is always there
 
-        Instantiator {
+        Repeater {
             id: tabButtonInstantiator
             model: { root.mprisSourcesModel }
 
-            onObjectAdded: { playerSelector.insertItem(index, object) }
-            onObjectRemoved: { playerSelector.removeItem(object) }
-
             delegate: PlasmaComponents3.TabButton {
-                checked: modelData["source"] == mpris2Source.current
-                text: modelData["text"]
-                contentItem: PlasmaCore.IconItem {
-                    source: modelData["icon"]
-                    implicitHeight: units.iconSizes.smallMedium
-                }
+                parent: playerSelector
+                checked: modelData["source"] == model.current
+                text: ""    // modelData["text"]
+                icon.name: modelData["icon"]
+                PlasmaComponents3.ToolTip.text: modelData["text"]
+                PlasmaComponents3.ToolTip.visible: hovered
                 onClicked: {
-                    disablePositionUpdate = true
-                    mpris2Source.current = modelData["source"];
-                    disablePositionUpdate = false
+                    Media.lockPositionUpdate = true
+                    Media.currentSource = modelData["source"];
+                    Media.lockPositionUpdate = false
                 }
             }
 
