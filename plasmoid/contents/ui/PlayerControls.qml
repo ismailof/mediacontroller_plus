@@ -40,7 +40,7 @@ Row {
         visible: (compactView && hideDisabledControls)? enabled : true
         icon.name: LayoutMirroring.enabled ? "media-skip-forward" : "media-skip-backward"
         onClicked: {
-            //root.position = 0    // Let the media start from beginning. Bug 362473
+            root.displayPosition = 0    // Let the media start from beginning. Bug 362473
             Media.action_previous()
         }
     }
@@ -61,7 +61,7 @@ Row {
         visible: (compactView && hideDisabledControls)? enabled : true
         icon.name: LayoutMirroring.enabled ? "media-skip-backward" : "media-skip-forward"
         onClicked: {
-            //root.position = 0    // Let the media start from beginning. Bug 362473
+            root.displayPosition = 0    // Let the media start from beginning. Bug 362473
             Media.action_next()
         }
     }

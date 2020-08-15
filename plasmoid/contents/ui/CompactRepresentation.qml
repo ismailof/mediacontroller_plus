@@ -42,18 +42,18 @@ Item {
         id: miniProgressBar
         z: 0
 
+        property double progress: Media.songLength > 0 ? root.displayPosition / Media.songLength : 0
+
         anchors.fill: parent
         visible: plasmoid.configuration.showProgressBar && !iconView
 
         Item {
-            id: progress
             anchors {
                 top: parent.top
                 left: parent.left
                 bottom: parent.bottom
             }
-
-            width: parent.width * Media.position / Media.songLenght
+            width: parent.width * miniProgressBar.progress
             clip: true
 
             PlasmaCore.FrameSvgItem {

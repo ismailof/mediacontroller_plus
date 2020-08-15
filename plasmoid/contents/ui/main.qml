@@ -118,6 +118,35 @@ Item {
         }
     }
 
+    // I'd rather had this property and logic on Media object itself
+    // but it doesn't seem possible to instantiate a Timer there
+    property double displayPosition: 0
+
+    Connections {
+        target: Media
+        onPositionChanged: {
+            root.displayPosition = Media.position
+        }
+        onCurrentTrackChanged: {
+            root.displayPosition = 0
+        }
+    }
+
+    Timer {
+        id: updateProgressTimer
+
+        interval: 1000 / Media.playbackRate
+        repeat: true
+        running: Media.state === "playing"
+
+        onTriggered: {
+            // Some players don't continuously update the seek slider position via mpris
+            // Add one second; value in microseconds
+            displayPosition += 1000000
+            Media.retrievePosition()
+        }
+    }
+
     Plasmoid.fullRepresentation: ExpandedRepresentation {}
 
     Plasmoid.compactRepresentation: CompactRepresentation {}
