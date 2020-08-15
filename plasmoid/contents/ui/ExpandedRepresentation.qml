@@ -110,10 +110,47 @@ Item {
         id: mainCol
         anchors.fill: parent
 
+        PlasmaComponents3.TabBar {
+            id: playerSelector
+
+            Layout.fillWidth: true
+            Layout.minimumHeight: units.iconSizes.medium
+            Layout.margins: units.smallSpacing
+
+            visible: tabButtonInstantiator.model.length > 2  // more than one player, @multiplex is always there
+
+            Repeater {
+                id: tabButtonInstantiator
+                model: Media.sources
+
+                delegate: PlasmaComponents3.TabButton {
+                    checked: modelData["source"] == model.current
+                    text: ""    // modelData["text"]
+                    icon.name: modelData["icon"]
+                    PlasmaComponents3.ToolTip.text: modelData["text"]
+                    PlasmaComponents3.ToolTip.visible: hovered
+                    onClicked: {
+                        Media.lockPositionUpdate = true
+                        Media.currentSource = modelData["source"];
+                        Media.lockPositionUpdate = false
+                    }
+                }
+
+                onModelChanged: {
+                    // If model changes, we try to find the current player again
+                    for (var i = 0, length = model.length; i < length; i++) {
+                        if (model[i].source === Media.currentSource) {
+                            playerSelector.currentIndex = i
+                            break
+                        }
+                    }
+                }
+            }
+        }
+
         Item { // Album Art Background + Details
             Layout.fillWidth: true
             Layout.fillHeight: true
-
 
             Image {
                 id: backgroundImage
@@ -360,34 +397,6 @@ Item {
                     seekSlider.value = 0    // Let the media start from beginning. Bug 362473
                     Media.perform(Media.Actions.Next)
                 }
-            }
-        }
-
-        PlasmaComponents3.ComboBox {
-            Layout.fillWidth: true
-            Layout.leftMargin: units.gridUnit*2
-            Layout.rightMargin: units.gridUnit*2
-
-            id: playerCombo
-            textRole: "text"
-            visible: model.length > 2 // more than one player, @multiplex is always there
-            model: Media.sources
-
-            onModelChanged: {
-                // if model changes, ComboBox resets, so we try to find the current player again...
-                for (var i = 0; i < model.length; ++i) {
-                    if (model[i].source === Media.source.current) {
-                        currentIndex = i
-                        break
-                    }
-                }
-            }
-
-            onActivated: {
-                Media.lockPositionUpdate = true
-                // ComboBox has currentIndex and currentText, why doesn't it have currentItem/currentModelValue?
-                Media.currentSource = model[index].source
-                Media.lockPositionUpdate = false
             }
         }
     }
