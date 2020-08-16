@@ -44,47 +44,55 @@ Item {
             return
         }
 
-        if (mpris2Source.currentData.CanRaise) {
-            var icon = mpris2Source.currentData["Desktop Icon Name"] || ""
-            plasmoid.setAction("open", i18nc("Open player window or bring it to the front if already open", "Open"), icon)
+        if (Media.current.CanRaise) {
+            var icon = Media.desktopIcon || ""
+            plasmoid.setAction(Media.Actions.Raise, i18nc("Open player window or bring it to the front if already open", "Open"), icon)
         }
 
-        if (canControl) {
-            plasmoid.setAction("previous", i18nc("Play previous track", "Previous Track"),
+        if (Media.canControl) {
+            plasmoid.setAction(Media.Actions.Previous, i18nc("Play previous track", "Previous Track"),
                                Qt.application.layoutDirection === Qt.RightToLeft ? "media-skip-forward" : "media-skip-backward")
-            plasmoid.action("previous").enabled = Qt.binding(function() {
+            plasmoid.action(Media.Actions.Previous).enabled = Qt.binding(function() {
                 return Media.canGoPrevious
             })
 
             // if CanPause, toggle the menu entry between Play & Pause, otherwise always use Play
             if (Media.state == "playing" && Media.canPause) {
-                plasmoid.setAction("pause", i18nc("Pause playback", "Pause"), "media-playback-pause")
-                plasmoid.action("pause").enabled = Qt.binding(function() {
+                plasmoid.setAction(Media.Actions.Pause, i18nc("Pause playback", "Pause"), "media-playback-pause")
+                plasmoid.action(Media.Actions.Pause).enabled = Qt.binding(function() {
                     return Media.state === "playing" && Media.canPause
                 })
             } else {
-                plasmoid.setAction("play", i18nc("Start playback", "Play"), "media-playback-start")
-                plasmoid.action("play").enabled = Qt.binding(function() {
+                plasmoid.setAction(Media.Actions.Play, i18nc("Start playback", "Play"), "media-playback-start")
+                plasmoid.action(Media.Actions.Play).enabled = Qt.binding(function() {
                     return Media.state !== "playing" && Media.canPlay
                 })
             }
 
-            plasmoid.setAction("next", i18nc("Play next track", "Next Track"),
+            plasmoid.setAction(Media.Actions.Next, i18nc("Play next track", "Next Track"),
                                Qt.application.layoutDirection === Qt.RightToLeft ? "media-skip-backward" : "media-skip-forward")
-            plasmoid.action("next").enabled = Qt.binding(function() {
+            plasmoid.action(Media.Actions.Next).enabled = Qt.binding(function() {
                 return Media.canGoNext
             })
 
-            plasmoid.setAction("stop", i18nc("Stop playback", "Stop"), "media-playback-stop")
-            plasmoid.action("stop").enabled = Qt.binding(function() {
+            plasmoid.setAction(Media.Actions.Stop, i18nc("Stop playback", "Stop"), "media-playback-stop")
+            plasmoid.action(Media.Actions.Stop).enabled = Qt.binding(function() {
                 return Media.state === "playing" || Media.state === "paused"
             })
         }
 
-        if (mpris2Source.currentData.CanQuit) {
-            plasmoid.setActionSeparator("quitseparator")
-            plasmoid.setAction("quit", i18nc("Quit player", "Quit"), "application-exit")
+        if (Media.current.CanQuit) {
+            plasmoid.setAction(Media.Actions.Quit, i18nc("Quit player", "Quit"), "application-exit")
         }
+
+        if (Media.canControl || Media.current.CanRaise || Media.current.CanQuit) {
+            plasmoid.setActionSeparator("action-separator")
+        }
+    }
+
+    function actionTriggered(action) {
+        //Parameter `action` is a string, but contains a Media.Actions enum value
+        Media.perform(parseInt(action))
     }
 
     // HACK Some players like Amarok take quite a while to load the next track

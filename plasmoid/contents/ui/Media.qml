@@ -18,6 +18,7 @@ QtObject {
     readonly property bool noPlayers: mpris2Source.sources.length <= 1
     readonly property var albumArt: currentMetadata ? currentMetadata["mpris:artUrl"] || "" : ""
     readonly property var fallbackIcon: currentMetadata ? currentMetadata["Desktop Icon Name"] || "media-album-cover" : "media-album-cover"
+    readonly property var desktopIcon: currentMetadata ? currentMetadata["Desktop Icon Name"] || currentMetadata["Desktop Entry"] || currentSource : ""
 
     readonly property bool hasCurrentTrack: currentTrack != ""
     readonly property bool hasAlbumArt: albumArt != "" && hasCurrentTrack
@@ -210,16 +211,16 @@ QtObject {
                 serviceOp(mpris2Source.currentSource, "Next")
                 break
             case Media.Actions.Stop:
-                serviceOp(mpris2Source.current, "Stop")
+                serviceOp(mpris2Source.currentSource, "Stop")
                 break
             case Media.Actions.Raise:
-                serviceOp(mpris2Source.current, "Raise")
+                serviceOp(mpris2Source.currentSource, "Raise")
                 break
             case Media.Actions.Quit:
-                serviceOp(mpris2Source.current, "Quit")
+                serviceOp(mpris2Source.currentSource, "Quit")
                 break
             case Media.Actions.PlayPause:
-                serviceOp(mpris2Source.current, "PlayPause")
+                serviceOp(mpris2Source.currentSource, "PlayPause")
                 break
             default:
                 print("Unhandled action: " + act)
