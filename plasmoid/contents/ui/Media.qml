@@ -189,7 +189,7 @@ QtObject {
     }
 
     function adjustVolume(delta) {
-        let service = mpris2Source.serviceForSource(mpris2Source.current)
+        let service = mpris2Source.serviceForSource(mpris2Source.currentSource)
         let operation = service.operationDescription("ChangeVolume")
         operation.delta = delta
         operation.showOSD = true
