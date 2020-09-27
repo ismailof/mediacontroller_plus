@@ -20,6 +20,7 @@
 
 import QtQuick 2.4
 import org.kde.plasma.components 3.0 as PlasmaComponents3
+import org.kde.plasma.core 2.0 as PlasmaCore
 
 
 Row {
@@ -29,12 +30,16 @@ Row {
     property bool compactView: false
     property bool hideDisabledControls: true
 
-    property int controlSize: compactView ? units.iconSizes.medium : units.iconSizes.large
-    spacing: compactView ? 0 : units.largeSpacing
+    property int controlSize: PlasmaCore.Units.iconSizes.huge
+    readonly property int controlSmallerSize: Math.min(controlSize,
+                                                       Math.max(Math.round(controlSize / 1.5),
+                                                                PlasmaCore.Units.iconSizes.medium))
+
+    spacing: compactView?  0 : units.largeSpacing
 
     PlasmaComponents3.ToolButton {
         anchors.verticalCenter: parent.verticalCenter
-        width: controlSize
+        width: controlSmallerSize
         height: width
         enabled: playerControls.enabled && Media.canGoPrevious
         visible: (compactView && hideDisabledControls)? enabled : true
@@ -46,7 +51,7 @@ Row {
     }
 
     PlasmaComponents3.ToolButton {
-        width: Math.round(controlSize * 1.5)
+        width: controlSize
         height: width
         enabled: Media.state == "playing" ? Media.canPause : Media.canPlay
         icon.name: Media.state == "playing" ? "media-playback-pause" : "media-playback-start"
@@ -55,7 +60,7 @@ Row {
 
     PlasmaComponents3.ToolButton {
         anchors.verticalCenter: parent.verticalCenter
-        width: controlSize
+        width: controlSmallerSize
         height: width
         enabled: playerControls.enabled && Media.canGoNext
         visible: (compactView && hideDisabledControls)? enabled : true
