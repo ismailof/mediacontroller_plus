@@ -29,11 +29,11 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    readonly property bool iconView: width < units.gridUnit * 8
-    readonly property bool minimalView: height < units.gridUnit * 3
+    readonly property bool iconView: width < PlasmaCore.Units.gridUnit * 8
+    readonly property bool minimalView: height < PlasmaCore.Units.gridUnit * 3
 
-    Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * units.gridUnit
-    Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * units.gridUnit || undefined
+    Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
+    Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit || undefined
 
 
     Item {
@@ -67,7 +67,7 @@ Item {
     RowLayout {
 
         z: 100
-        spacing: units.smallSpacing
+        spacing: PlasmaCore.Units.smallSpacing
 
         anchors {
             fill: parent
@@ -79,7 +79,7 @@ Item {
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.minimumWidth: height
             Layout.maximumWidth: (artSize[0] / artSize[1]) * height
-            Layout.margins: units.smallSpacing
+            Layout.margins: PlasmaCore.Units.smallSpacing
 
             visible: !minimalView
         }
@@ -141,7 +141,7 @@ Item {
                     break
                 case Qt.BackButton:
                     root.action_previous()
-                    breakunits.smallSpacing
+                    breakPlasmaCore.Units.smallSpacing
                 case Qt.ForwardButton:
                     root.action_next()
                     break

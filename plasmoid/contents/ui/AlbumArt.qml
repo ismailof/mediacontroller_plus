@@ -32,7 +32,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-        height: Math.min(parent.height, Math.max(units.iconSizes.large, Math.round(parent.height / 2)))
+        height: Math.min(parent.height, Math.max(PlasmaCore.Units.iconSizes.large, Math.round(parent.height / 2)))
         width: height
 
         source: mpris2Source.currentData["Desktop Icon Name"]

@@ -18,6 +18,8 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.5 as QQC2
+import org.kde.plasma.core 2.0 as PlasmaCore
+
 
 Item {
     id: compactViewConfig
@@ -29,24 +31,24 @@ Item {
 
     GridLayout {
         columns: 2
-        rowSpacing: units.smallSpacing
+        rowSpacing: PlasmaCore.Units.smallSpacing
         Layout.fillWidth: true
 
         QQC2.Label {
             text: i18n("Width Range:")
             Layout.alignment: Qt.AlignRight
-            Layout.bottomMargin: units.largeSpacing
+            Layout.bottomMargin: PlasmaCore.Units.largeSpacing
         }
 
         RowLayout {
-            spacing: units.smallSpacing
+            spacing: PlasmaCore.Units.smallSpacing
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
-            Layout.bottomMargin: units.largeSpacing
+            Layout.bottomMargin: PlasmaCore.Units.largeSpacing
 
             QQC2.Label {
                 id: lbl_minWidth
-                text: Math.round(widthSlider.proxyFirstValue * units.gridUnit) + "px"
+                text: Math.round(widthSlider.proxyFirstValue * PlasmaCore.Units.gridUnit) + "px"
                 Layout.preferredWidth: 50
                 horizontalAlignment: Text.AlignRight
             }
@@ -74,7 +76,7 @@ Item {
             QQC2.Label {
                 id: lbl_maximumWidth
                 text: (widthSlider.second.position == 1.0) ? i18n("No limit")
-                                                           : Math.round(widthSlider.proxySecondValue * units.gridUnit) + "px"
+                                                           : Math.round(widthSlider.proxySecondValue * PlasmaCore.Units.gridUnit) + "px"
                 Layout.preferredWidth: 50
                 horizontalAlignment: Text.AlignLeft
             }

@@ -21,6 +21,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 
@@ -30,7 +31,7 @@ ColumnLayout {
     property alias textAlignment: mainLabel.horizontalAlignment
     property bool oneLiner: false
 
-    readonly property bool showAlbum: !oneLiner && album && width > units.gridUnit * 12
+    readonly property bool showAlbum: !oneLiner && album && width > PlasmaCore.Units.gridUnit * 12
 
     readonly property string album: {
         var metadata = root.currentMetadata

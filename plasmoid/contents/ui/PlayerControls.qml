@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 import QtQuick 2.4
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
 
@@ -34,7 +35,7 @@ Row {
                                                        Math.max(Math.round(controlSize / 1.5),
                                                                 PlasmaCore.Units.iconSizes.medium))
 
-    spacing: compactView?  0 : units.largeSpacing
+    spacing: compactView?  0 : PlasmaCore.Units.largeSpacing
 
     PlasmaComponents3.ToolButton {
         anchors.verticalCenter: parent.verticalCenter
