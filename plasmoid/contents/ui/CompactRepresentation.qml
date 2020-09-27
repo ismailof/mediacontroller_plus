@@ -97,7 +97,8 @@ Item {
             id: playerControls
             Layout.alignment: Qt.AlignCenter
             compactView: true
-            controlSize: minimalView? units.iconSizes.smallMedium: units.iconSizes.medium
+            controlSize: Math.max(PlasmaCore.Units.iconSizes.small,
+                                  Math.min(parent.height, PlasmaCore.Units.iconSizes.large))
             hideDisabledControls: plasmoid.configuration.hideDisabledControls
         }
 
