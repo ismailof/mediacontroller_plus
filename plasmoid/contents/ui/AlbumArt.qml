@@ -40,7 +40,7 @@ Item {
         verticalAlignment: Image.AlignVCenter
         fillMode: Image.PreserveAspectFit
 
-        source: Media.albumArt
+        source: processArtUrl(Media.albumArt.toString())
     }
 
     PlasmaCore.IconItem { // Fallback Icon
@@ -52,5 +52,21 @@ Item {
             fill: parent
             margins: iconMargins
         }
+    }
+
+    //FIXME: This function gets called on every media update (every second)
+    // Improve the timer update or the property changes binding
+
+    // HACK: Spotify has changed the base URL of their album art images
+    // but hasn't updated the URL reported by the MPRIS service
+    // https://community.spotify.com/t5/Desktop-Linux/MPRIS-cover-art-url-file-not-found/td-p/4920104
+    function processArtUrl(artUrl) {
+        let SPOTIFY_OLD_URL = "https://open.spotify.com"
+        let SPOTIFY_NEW_URL = "https://i.scdn.co"
+
+        if (artUrl.startsWith(SPOTIFY_OLD_URL)) {
+            return artUrl.replace(SPOTIFY_OLD_URL, SPOTIFY_NEW_URL)
+        }
+        return artUrl
     }
 }
