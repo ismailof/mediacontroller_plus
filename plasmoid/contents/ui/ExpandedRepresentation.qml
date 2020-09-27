@@ -115,9 +115,9 @@ Item {
                 PlasmaComponents3.ToolTip.text: modelData["text"]
                 PlasmaComponents3.ToolTip.visible: hovered
                 onClicked: {
-                    Media.lockPositionUpdate = true
-                    Media.currentSource = modelData["source"];
-                    Media.lockPositionUpdate = false
+                    disablePositionUpdate = true
+                    mpris2Source.current = modelData["source"];
+                    disablePositionUpdate = false
                 }
             }
 
