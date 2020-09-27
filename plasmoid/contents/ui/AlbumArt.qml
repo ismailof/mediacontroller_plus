@@ -47,10 +47,23 @@ Item {
             fill: parent
         }
 
-        source: root.albumArt
+        source: processArtUrl(root.albumArt)
         asynchronous: true
         fillMode: Image.PreserveAspectFit
         sourceSize: Qt.size(height, height)
         visible: !!root.track && status === Image.Ready
+    }
+
+    // HACK: Spotify has changed the base URL of their album art images
+    // but hasn't updated the URL reported by the MPRIS service
+    // https://community.spotify.com/t5/Desktop-Linux/MPRIS-cover-art-url-file-not-found/td-p/4920104
+    function processArtUrl(url) {
+        let SPOTIFY_OLD_URL = "https://open.spotify.com"
+        let SPOTIFY_NEW_URL = "https://i.scdn.co"
+
+        if (url.startsWith(SPOTIFY_OLD_URL)) {
+            return url.replace(SPOTIFY_OLD_URL, SPOTIFY_NEW_URL)
+        }
+        return url
     }
 }
