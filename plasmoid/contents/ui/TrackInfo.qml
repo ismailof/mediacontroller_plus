@@ -24,7 +24,7 @@ import QtQuick.Layouts 1.2
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 
-GridLayout {
+ColumnLayout {
     id: trackInfo
 
     property alias textAlignment: mainLabel.horizontalAlignment
@@ -89,8 +89,6 @@ GridLayout {
     PlasmaExtras.Heading {
         id: secondLabel
         Layout.fillWidth: true
-        Layout.row: oneLiner ? 0 : 1
-        Layout.column: oneLiner ? 1 : 0
 
         level: 5
         opacity: 0.6

@@ -90,7 +90,7 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             textAlignment: Text.AlignLeft
             oneLiner: minimalView
-            rowSpacing: 0
+            spacing: 0
         }
 
         PlayerControls {
