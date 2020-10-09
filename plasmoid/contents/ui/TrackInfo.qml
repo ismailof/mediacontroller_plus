@@ -21,6 +21,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
+import QtQuick.Controls 2.14 as QQC2
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
@@ -67,10 +68,9 @@ ColumnLayout {
         return ""
     }
 
-    PlasmaExtras.Heading {
+    QQC2.Label {
         id: mainLabel
         Layout.fillWidth: true
-        level: 4
         horizontalAlignment: Text.AlignHCenter
 
         maximumLineCount: 1
@@ -87,11 +87,10 @@ ColumnLayout {
         textFormat: Text.PlainText
     }
 
-    PlasmaExtras.Heading {
+    QQC2.Label {
         id: secondLabel
         Layout.fillWidth: true
 
-        level: 5
         opacity: 0.6
         horizontalAlignment: textAlignment
         wrapMode: Text.NoWrap
