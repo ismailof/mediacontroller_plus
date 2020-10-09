@@ -31,11 +31,11 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    readonly property bool iconView: width < units.gridUnit * 8
-    readonly property bool minimalView: height < units.gridUnit * 3
+    readonly property bool iconView: width < PlasmaCore.Units.gridUnit * 8
+    readonly property bool minimalView: height < PlasmaCore.Units.gridUnit * 3
 
-    Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * units.gridUnit
-    Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * units.gridUnit || undefined
+    Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
+    Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit || undefined
 
 
     Item {
@@ -66,13 +66,27 @@ Item {
         }
     }
 
-    RowLayout {
+    Item {
+        id: verticalCenterHelper
+        anchors {
+            left: compactRoot.left
+            right: compactRoot.right
+            verticalCenter: compactRoot.verticalCenter
+            margins: 0
+        }
+        height: mainRow.implicitHeight
+    }
 
+    RowLayout {
+        id: mainRow
         z: 100
-        spacing: units.smallSpacing
+
+        readonly property bool heightOverflow: trackInfo.implicitHeight > compactRoot.height
+
+        spacing: PlasmaCore.Units.smallSpacing
 
         anchors {
-            fill: parent
+            fill: heightOverflow ? verticalCenterHelper : parent
             margins: 0
         }
 
@@ -82,8 +96,8 @@ Item {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.minimumWidth: height
-            Layout.maximumWidth: Math.min(height * artRatio,  units.iconSizes.enormous)
-            Layout.margins: units.smallSpacing
+            Layout.maximumWidth: (artSize[0] / artSize[1]) * height
+            Layout.margins: PlasmaCore.Units.smallSpacing
         }
 
         ColumnLayout {
@@ -92,7 +106,6 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             spacing: 0
-
 
             PlasmaExtras.Heading {
                 id: mainLabel
