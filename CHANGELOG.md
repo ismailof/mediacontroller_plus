@@ -1,6 +1,9 @@
 Changelog
 =========
 
+**v0.2.7**
+- Improve visuals for thinner panels
+
 **v0.2.6**
 - Workaround to retrieve Spotify album art
 

@@ -24,13 +24,13 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 
 Item {
-    id: compactRepresentation
+    id: compactRoot
 
     Layout.fillWidth: true
     Layout.fillHeight: true
 
     readonly property bool iconView: width < PlasmaCore.Units.gridUnit * 8
-    readonly property bool minimalView: height < PlasmaCore.Units.gridUnit * 3
+    readonly property bool minimalView: height < PlasmaCore.Units.gridUnit * 1.5 && !iconView
 
     Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
     Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit || undefined
