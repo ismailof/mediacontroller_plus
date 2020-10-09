@@ -21,6 +21,7 @@
 import QtQml 2.2
 import QtQuick 2.8
 import QtQuick.Layouts 1.1
+import QtQuick.Controls 2.12 as QQC2
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
@@ -107,10 +108,9 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             spacing: 0
 
-            PlasmaExtras.Heading {
+            QQC2.Label {
                 id: mainLabel
                 Layout.fillWidth: true
-                level: 4
                 horizontalAlignment: Text.AlignLeft
 
                 maximumLineCount: 1
@@ -127,11 +127,10 @@ Item {
                 textFormat: Text.PlainText
             }
 
-            PlasmaExtras.Heading {
+            QQC2.Label {
                 id: secondLabel
                 Layout.fillWidth: true
 
-                level: 5
                 opacity: 0.6
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.NoWrap
