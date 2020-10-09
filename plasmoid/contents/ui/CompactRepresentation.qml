@@ -64,13 +64,27 @@ Item {
         }
     }
 
-    RowLayout {
+    Item {
+        id: verticalCenterHelper
+        anchors {
+            left: compactRoot.left
+            right: compactRoot.right
+            verticalCenter: compactRoot.verticalCenter
+            margins: 0
+        }
+        height: mainRow.implicitHeight
+    }
 
+    RowLayout {
+        id: mainRow
         z: 100
+
+        readonly property bool heightOverflow: trackInfo.implicitHeight > compactRoot.height
+
         spacing: PlasmaCore.Units.smallSpacing
 
         anchors {
-            fill: parent
+            fill: heightOverflow ? verticalCenterHelper : parent
             margins: 0
         }
 
@@ -87,6 +101,7 @@ Item {
         TrackInfo {
             id: trackInfo
             Layout.fillWidth: true
+            Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             textAlignment: Text.AlignLeft
             oneLiner: minimalView
