@@ -18,7 +18,7 @@ QtObject {
     readonly property bool noPlayers: mpris2Source.sources.length <= 1
     readonly property var albumArt: currentMetadata ? currentMetadata["mpris:artUrl"] || "" : ""
     readonly property var fallbackIcon: current ? current["Desktop Icon Name"] || "media-album-cover" : "media-album-cover"
-    readonly property var desktopIcon: current ? current["Desktop Icon Name"] || current["Desktop Entry"] || currentSource : ""
+    readonly property var desktopIcon: current ? current["Desktop Icon Name"] || current["DesktopEntry"] || "emblem-music-symbolic" : "emblem-music-symbolic"
 
     readonly property bool hasCurrentTrack: currentTrack != ""
     readonly property bool hasAlbumArt: albumArt != "" && hasCurrentTrack
