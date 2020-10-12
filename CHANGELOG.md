@@ -1,6 +1,11 @@
 Changelog
 =========
 
+**v0.2.8**
+- Fix label color on light themes
+- Simplify second line logic
+- Fix media source icons and add fallback
+
 **v0.2.7**
 - Improve visuals for thinner panels
 
