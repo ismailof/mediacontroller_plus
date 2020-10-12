@@ -31,8 +31,6 @@ ColumnLayout {
     property alias textAlignment: mainLabel.horizontalAlignment
     property bool oneLiner: false
 
-    readonly property bool showAlbum: !oneLiner && album && width > PlasmaCore.Units.gridUnit * 12
-
     readonly property string album: {
         var metadata = root.currentMetadata
 
@@ -95,9 +93,11 @@ ColumnLayout {
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
         visible: !oneLiner && text.length > 0
-        text: (!showAlbum || !album) ? root.artist :
-                      (!root.artist) ? album
-                                     : i18nc("artist / album", "%1 / %2", root.artist, album)
+        text: {
+            if (!album) { return root.artist }
+            if (!root.artist) { return album }
+            return i18nc("artist / album", "%1 / %2", root.artist, album)
+        }
         textFormat: Text.PlainText
     }
 }
