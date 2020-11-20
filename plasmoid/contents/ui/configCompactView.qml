@@ -20,6 +20,8 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.5 as QQC2
 import org.kde.plasma.core 2.0 as PlasmaCore
 
+import org.kde.kirigami 2.14 as Kirigami
+
 
 Item {
     id: compactViewConfig
@@ -27,21 +29,45 @@ Item {
     property alias cfg_minimumWidthUnits: widthSlider.proxyFirstValue
     property alias cfg_maximumWidthUnits: widthSlider.proxySecondValue
     property alias cfg_showProgressBar: showProgressBar.checked
-    property alias cfg_hideDisabledControls: hideDisabledControls.checked
+    property alias cfg_showAlbumArt: showAlbumArt.checked
+    property alias cfg_showTrackInfo: showTrackInfo.checked
+    property alias cfg_showPlaybackControls: showPlaybackControls.checked
+    property int cfg_showPrevNextControls
 
-    GridLayout {
-        columns: 2
-        rowSpacing: PlasmaCore.Units.smallSpacing
-        Layout.fillWidth: true
+    Kirigami.FormLayout {
 
-        QQC2.Label {
-            text: i18n("Width Range:")
-            Layout.alignment: Qt.AlignRight
-            Layout.bottomMargin: PlasmaCore.Units.largeSpacing
+        QQC2.CheckBox {
+            id: showAlbumArt
+            Kirigami.FormData.label: i18n("Show in panel view:")
+            text: i18n("Album art")
+        }
+
+        QQC2.CheckBox {
+            id: showTrackInfo
+            text: i18n("Track information")
+        }
+
+        QQC2.CheckBox {
+            id: showPlaybackControls
+            text: i18n("Playback controls")
+        }
+
+        QQC2.CheckBox {
+            id: showProgressBar
+            enabled: showAlbumArt.checked || showTrackInfo.checked || showPlaybackControls.checked
+            text: i18n("Progress bar")
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
         }
 
         RowLayout {
+            Kirigami.FormData.label: i18n("Width Range:")
+
+            enabled: cfg_showTrackInfo
             spacing: PlasmaCore.Units.smallSpacing
+
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
             Layout.bottomMargin: PlasmaCore.Units.largeSpacing
@@ -82,21 +108,41 @@ Item {
             }
         }
 
-        QQC2.Label {
-            text: i18n("Display:")
-            Layout.alignment: Qt.AlignRight
+        Kirigami.Separator {}
+
+        QQC2.RadioButton {
+            id: showPrevNextAlways
+            Kirigami.FormData.label: i18n("Show Previous/Next controls:")
+            text: i18n("Always")
+            enabled: cfg_showPlaybackControls
+            checked: cfg_showPrevNextControls === Qt.Checked
+        }
+        QQC2.RadioButton {
+            id: showPrevNextNever
+            text: i18n("Never")
+            enabled: cfg_showPlaybackControls
+            checked: cfg_showPrevNextControls === Qt.Unchecked
+        }
+        QQC2.RadioButton {
+            id: showPrevNextWhenEnabled
+            text: i18n("Only when useful")
+            enabled: cfg_showPlaybackControls
+            checked: cfg_showPrevNextControls === Qt.PartiallyChecked
+        }
+    }
+
+    QQC2.ButtonGroup {
+        id: showPrevNextGroup
+        buttons: [showPrevNextAlways, showPrevNextNever, showPrevNextWhenEnabled]
+
+        readonly property int value: {
+            switch (checkedButton) {
+                case showPrevNextAlways: return Qt.Checked;
+                case showPrevNextNever: return Qt.Unchecked;
+                case showPrevNextWhenEnabled: return Qt.PartiallyChecked;
+            }
         }
 
-        QQC2.CheckBox {
-            id: showProgressBar
-            text: i18n("Show progress bar")
-        }
-
-        QQC2.Label {}
-
-        QQC2.CheckBox {
-            id: hideDisabledControls
-            text: i18n("Hide controls when not available")
-        }
+        onClicked: { cfg_showPrevNextControls = value }
     }
 }
