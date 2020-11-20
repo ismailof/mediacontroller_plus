@@ -15,8 +15,17 @@
     <entry name="showProgressBar" type="Bool">
       <default>true</default>
     </entry>
-    <entry name="hideDisabledControls" type="Bool">
+    <entry name="showAlbumArt" type="Bool">
       <default>true</default>
+    </entry>
+    <entry name="showTrackInfo" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showPlaybackControls" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showPrevNextControls" type="int">
+      <default>1</default>
     </entry>
   </group>
 

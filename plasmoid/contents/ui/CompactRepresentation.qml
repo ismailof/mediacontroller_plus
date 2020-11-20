@@ -26,13 +26,17 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: compactRoot
 
-    Layout.fillWidth: true
+    Layout.fillWidth: plasmoid.configuration.showTrackInfo
     Layout.fillHeight: true
 
-    readonly property bool iconView: width < PlasmaCore.Units.gridUnit * 8
-    readonly property bool minimalView: height < PlasmaCore.Units.gridUnit * 1.5 && !iconView
+    readonly property bool iconView: (width < PlasmaCore.Units.gridUnit * 4) ||
+                                     (!plasmoid.configuration.showAlbumArt &&
+                                      !plasmoid.configuration.showTrackInfo &&
+                                      !plasmoid.configuration.showPlaybackControls)
 
-    Layout.preferredWidth: (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
+    Layout.minimumWidth: (iconView ? 1 : 5) * PlasmaCore.Units.gridUnit
+    Layout.preferredWidth: plasmoid.configuration.showTrackInfo ? (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
+                                                                : mainRow.implicitWidth
     Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit || undefined
 
 
@@ -89,32 +93,37 @@ Item {
         }
 
         AlbumArt {
+            Layout.fillWidth: !trackInfo.visible && !playerControls.visible
             Layout.fillHeight: true
-            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+            Layout.alignment: Qt.AlignVCenter
             Layout.minimumWidth: height
+
             Layout.maximumWidth: (artSize[0] / artSize[1]) * height
             Layout.margins: PlasmaCore.Units.smallSpacing
 
-            visible: !minimalView
+            visible: plasmoid.configuration.showAlbumArt
         }
 
         TrackInfo {
             id: trackInfo
+            visible: plasmoid.configuration.showTrackInfo
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             textAlignment: Text.AlignLeft
-            oneLiner: minimalView
+            oneLiner: compactRoot.height < PlasmaCore.Units.gridUnit * 1.5
             spacing: 0
         }
 
         PlayerControls {
             id: playerControls
-            Layout.alignment: Qt.AlignCenter
+            visible: plasmoid.configuration.showPlaybackControls
+            Layout.fillWidth: !trackInfo.visible
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             compactView: true
             controlSize: Math.max(PlasmaCore.Units.iconSizes.small,
-                                  Math.min(parent.height, PlasmaCore.Units.iconSizes.large))
-            hideDisabledControls: plasmoid.configuration.hideDisabledControls
+                                  trackInfo.visible ? Math.min(parent.height, PlasmaCore.Units.iconSizes.large)
+                                                    : parent.height)
         }
 
         visible: !iconView

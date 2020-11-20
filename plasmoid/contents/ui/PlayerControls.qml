@@ -19,30 +19,32 @@
  ***************************************************************************/
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.3
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
 
-Row {
+RowLayout {
     id: playerControls
 
     property bool enabled: root.canControl
     property bool compactView: false
-    property bool hideDisabledControls: true
 
     property int controlSize: PlasmaCore.Units.iconSizes.huge
     readonly property int controlSmallerSize: Math.min(controlSize,
-                                                       Math.max(Math.round(controlSize / 1.5),
+                                                       Math.max(Math.round(controlSize / 1.25),
                                                                 PlasmaCore.Units.iconSizes.medium))
-
     spacing: compactView?  0 : PlasmaCore.Units.largeSpacing
 
     PlasmaComponents3.ToolButton {
-        anchors.verticalCenter: parent.verticalCenter
-        width: controlSmallerSize
-        height: width
+        Layout.alignment: Qt.AlignCenter
+        implicitWidth: controlSmallerSize
+        implicitHeight: implicitWidth
         enabled: playerControls.enabled && root.canGoPrevious
-        visible: (compactView && hideDisabledControls)? enabled : true
+        visible: !compactView
+                    || plasmoid.configuration.showPrevNextControls === Qt.Checked
+                    || (plasmoid.configuration.showPrevNextControls === Qt.PartiallyChecked && enabled)
+
         icon.name: LayoutMirroring.enabled ? "media-skip-forward" : "media-skip-backward"
         onClicked: {
             //root.position = 0    // Let the media start from beginning. Bug 362473
@@ -51,19 +53,23 @@ Row {
     }
 
     PlasmaComponents3.ToolButton {
-        width: controlSize
-        height: width
+        Layout.alignment: Qt.AlignCenter
+        implicitWidth: controlSize
+        implicitHeight: implicitWidth
         enabled: root.state == "playing" ? root.canPause : root.canPlay
         icon.name: root.state == "playing" ? "media-playback-pause" : "media-playback-start"
         onClicked: root.togglePlaying()
     }
 
     PlasmaComponents3.ToolButton {
-        anchors.verticalCenter: parent.verticalCenter
-        width: controlSmallerSize
-        height: width
+        Layout.alignment: Qt.AlignCenter
+        implicitWidth: controlSmallerSize
+        implicitHeight: implicitWidth
         enabled: playerControls.enabled && root.canGoNext
-        visible: (compactView && hideDisabledControls)? enabled : true
+        visible: !compactView
+                    || plasmoid.configuration.showPrevNextControls === Qt.Checked
+                    || (plasmoid.configuration.showPrevNextControls === Qt.PartiallyChecked && enabled)
+
         icon.name: LayoutMirroring.enabled ? "media-skip-backward" : "media-skip-forward"
         onClicked: {
             //root.position = 0    // Let the media start from beginning. Bug 362473
