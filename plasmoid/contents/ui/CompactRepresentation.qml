@@ -93,14 +93,13 @@ Item {
         }
 
         AlbumArt {
-            Layout.fillWidth: !trackInfo.visible && !playerControls.visible
+            id: albumArt
+            visible: plasmoid.configuration.showAlbumArt
+            Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             Layout.minimumWidth: height
-            Layout.maximumWidth: (artSize[0] / artSize[1]) * height
-            Layout.margins: PlasmaCore.Units.smallSpacing
-
-            visible: plasmoid.configuration.showAlbumArt
+            Layout.preferredWidth: aspectRatio * height
         }
 
         TrackInfo {
