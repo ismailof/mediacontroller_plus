@@ -24,7 +24,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item {
 
-    property alias artSize: albumArt.sourceSize
+    readonly property real aspectRatio: albumArt.visible ? (albumArt.paintedWidth / albumArt.paintedHeight) : 1.0
 
     PlasmaCore.IconItem {
         anchors {
@@ -50,7 +50,7 @@ Item {
         source: processArtUrl(root.albumArt)
         asynchronous: true
         fillMode: Image.PreserveAspectFit
-        sourceSize: Qt.size(height, height)
+        sourceSize: Qt.size(512, 512)
         visible: !!root.track && status === Image.Ready
     }
 

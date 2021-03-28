@@ -31,6 +31,9 @@ ColumnLayout {
     property alias textAlignment: mainLabel.horizontalAlignment
     property bool oneLiner: false
 
+    readonly property int implicitWidht: (oneLiner) ? mainLabel.implicitWidht
+                                                    : Math.max(mainLabel.implicitWidht, secondLabel.implicitWidht)
+
     readonly property string album: {
         var metadata = root.currentMetadata
 
