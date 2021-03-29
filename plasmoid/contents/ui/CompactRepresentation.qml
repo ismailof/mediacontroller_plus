@@ -39,13 +39,30 @@ Item {
                                                                 : mainRow.implicitWidth
     Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit || undefined
 
+    // HACK: To get the panel backgroud margins
+    PlasmaCore.Svg {
+        id: marginsHelper
+        imagePath: "widgets/panel-background"
+
+        readonly property int topMargin: {
+            if (hasElement("hint-top-margin")) {
+                print(elementSize("hint-top-margin").height)
+                return elementSize("hint-top-margin").height
+            }
+            return PlasmaCore.Units.smallSpacing
+        }
+    }
 
     Item {
         id: miniProgressBar
         z: 0
+        visible: plasmoid.configuration.showProgressBar && !iconView
 
         anchors.fill: parent
-        visible: plasmoid.configuration.showProgressBar && !iconView
+        // Negative margins to fill the panel. It seems simpler than
+        //  Plasmoid.constraintHints: PlasmaCore.Types.CanFillArea
+        // and the hack to get the margins is required anyway
+        anchors.margins: -marginsHelper.topMargin
 
         Item {
             id: progress
@@ -68,6 +85,7 @@ Item {
         }
     }
 
+    // HACK: To allow two lines on small panels (~ 32px to 36px)
     Item {
         id: verticalCenterHelper
         anchors {
@@ -98,6 +116,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
+            Layout.margins: 2   // To mimick the breeze icons internal margins and better adjust height
             Layout.minimumWidth: height
             Layout.preferredWidth: aspectRatio * height
         }
