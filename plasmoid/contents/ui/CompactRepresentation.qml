@@ -138,7 +138,12 @@ Item {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             textAlignment: isOnVertical ? Text.AlignHCenter : Text.AlignLeft
-            oneLiner: compactRoot.height < PlasmaCore.Units.gridUnit * 1.5
+            lineLimit: {
+                if (isOnVertical) return 3;
+                if (compactRoot.height > PlasmaCore.Units.gridUnit * 3) return 3;
+                if (compactRoot.height > PlasmaCore.Units.gridUnit * 1.5) return 2;
+                return 1;
+            }
             spacing: 0
         }
 

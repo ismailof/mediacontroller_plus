@@ -29,10 +29,11 @@ ColumnLayout {
     id: trackInfo
 
     property alias textAlignment: mainLabel.horizontalAlignment
-    property bool oneLiner: false
+    property int lineLimit: 2
 
-    readonly property int implicitWidht: (oneLiner) ? mainLabel.implicitWidht
-                                                    : Math.max(mainLabel.implicitWidht, secondLabel.implicitWidht)
+    readonly property int implicitWidht: Math.max(mainLabel.implicitWidht,
+                                                  lineLimit > 1 ? secondLabel.implicitWidht : 0,
+                                                  lineLimit > 2 ? thirdLabel.implicitWidht : 0)
 
     readonly property string album: {
         var metadata = root.currentMetadata
@@ -79,7 +80,7 @@ ColumnLayout {
             if (!root.track) {
                 return i18n("No media playing")
             }
-            if (oneLiner && root.artist) {
+            if (lineLimit == 1 && root.artist) {
                 return i18nc("artist – track", "%1 – %2", root.artist, root.track)
             }
             return root.track
@@ -95,12 +96,25 @@ ColumnLayout {
         horizontalAlignment: textAlignment
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
-        visible: !oneLiner && text.length > 0
+        visible: lineLimit > 1 && text.length > 0
         text: {
-            if (!album) { return root.artist }
+            if (lineLimit == 3 || !album) { return root.artist }
             if (!root.artist) { return album }
             return i18nc("artist / album", "%1 / %2", root.artist, album)
         }
+        textFormat: Text.PlainText
+    }
+
+    PlasmaComponents3.Label {
+        id: thirdLabel
+        Layout.fillWidth: true
+
+        opacity: 0.6
+        horizontalAlignment: textAlignment
+        wrapMode: Text.NoWrap
+        elide: Text.ElideRight
+        visible: lineLimit > 2 && text.length > 0
+        text: album
         textFormat: Text.PlainText
     }
 }
