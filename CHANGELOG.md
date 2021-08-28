@@ -1,6 +1,13 @@
 Changelog
 =========
 
+**v0.3.1**
+- Fix source removal (cherry-picked from upstream)
+- Adapt the layout for vertical panels
+
+**v0.3.0**
+- Options to show album, track or controls individually
+
 **v0.2.8**
 - Fix label color on light themes
 - Simplify second line logic
