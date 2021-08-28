@@ -65,7 +65,7 @@ Item {
         RowLayout {
             Kirigami.FormData.label: i18n("Width Range:")
 
-            enabled: cfg_showTrackInfo
+            enabled: cfg_showTrackInfo && plasmoid.formFactor === PlasmaCore.Types.Horizontal
             spacing: PlasmaCore.Units.smallSpacing
 
             Layout.fillWidth: true

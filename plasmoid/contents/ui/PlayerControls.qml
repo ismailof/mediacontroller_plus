@@ -29,21 +29,24 @@ RowLayout {
 
     property bool enabled: root.canControl
     property bool compactView: false
+    property bool canFitPrevNext: true
 
     property int controlSize: PlasmaCore.Units.iconSizes.huge
     readonly property int controlSmallerSize: Math.min(controlSize,
-                                                       Math.max(Math.round(controlSize / 1.25),
-                                                                PlasmaCore.Units.iconSizes.medium))
-    spacing: compactView?  0 : PlasmaCore.Units.largeSpacing
+                                                       Math.max(Math.round(controlSize / 1.25), PlasmaCore.Units.iconSizes.medium))
+    readonly property int controlsCount : 1 + (prevButton.visible ? 1 : 0) +  (nextButton.visible ? 1 : 0)
+
+    spacing: compactView ?  0 : PlasmaCore.Units.largeSpacing
 
     PlasmaComponents3.ToolButton {
-        Layout.alignment: Qt.AlignCenter
+        id: prevButton
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
         implicitWidth: controlSmallerSize
         implicitHeight: implicitWidth
         enabled: playerControls.enabled && root.canGoPrevious
-        visible: !compactView
+        visible: canFitPrevNext && (!compactView
                     || plasmoid.configuration.showPrevNextControls === Qt.Checked
-                    || (plasmoid.configuration.showPrevNextControls === Qt.PartiallyChecked && enabled)
+                    || (plasmoid.configuration.showPrevNextControls === Qt.PartiallyChecked && enabled))
 
         icon.name: LayoutMirroring.enabled ? "media-skip-forward" : "media-skip-backward"
         onClicked: {
@@ -62,13 +65,14 @@ RowLayout {
     }
 
     PlasmaComponents3.ToolButton {
-        Layout.alignment: Qt.AlignCenter
+        id: nextButton
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
         implicitWidth: controlSmallerSize
         implicitHeight: implicitWidth
         enabled: playerControls.enabled && root.canGoNext
-        visible: !compactView
+        visible: canFitPrevNext && (!compactView
                     || plasmoid.configuration.showPrevNextControls === Qt.Checked
-                    || (plasmoid.configuration.showPrevNextControls === Qt.PartiallyChecked && enabled)
+                    || (plasmoid.configuration.showPrevNextControls === Qt.PartiallyChecked && enabled))
 
         icon.name: LayoutMirroring.enabled ? "media-skip-backward" : "media-skip-forward"
         onClicked: {

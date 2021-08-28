@@ -22,22 +22,25 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-
 Item {
     id: compactRoot
 
-    Layout.fillWidth: plasmoid.configuration.showTrackInfo
-    Layout.fillHeight: true
+    readonly property bool isOnVertical: plasmoid.formFactor === PlasmaCore.Types.Vertical
 
-    readonly property bool iconView: (width < PlasmaCore.Units.gridUnit * 4) ||
-                                     (!plasmoid.configuration.showAlbumArt &&
-                                      !plasmoid.configuration.showTrackInfo &&
-                                      !plasmoid.configuration.showPlaybackControls)
+    readonly property bool iconView: (width < PlasmaCore.Units.gridUnit * 2)
+                                        || (!plasmoid.configuration.showAlbumArt
+                                            && !plasmoid.configuration.showTrackInfo
+                                            && !plasmoid.configuration.showPlaybackControls)
 
-    Layout.minimumWidth: (iconView ? 1 : 5) * PlasmaCore.Units.gridUnit
+    Layout.fillWidth: isOnVertical || plasmoid.configuration.showTrackInfo
+    Layout.fillHeight: !isOnVertical
+
+    Layout.minimumWidth: isOnVertical ? plasmoid.width : (iconView ? 1 : 5) * PlasmaCore.Units.gridUnit
     Layout.preferredWidth: plasmoid.configuration.showTrackInfo ? (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
                                                                 : mainRow.implicitWidth
-    Layout.maximumWidth: plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit || undefined
+    Layout.maximumWidth: isOnVertical ? plasmoid.width : plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit
+
+    Layout.preferredHeight: isOnVertical ? mainRow.implicitHeight : plasmoid.height
 
     // HACK: To get the panel backgroud margins
     PlasmaCore.Svg {
@@ -97,16 +100,21 @@ Item {
         height: mainRow.implicitHeight
     }
 
-    RowLayout {
+    GridLayout {
         id: mainRow
         z: 100
+        visible: !iconView
+
+        columns: isOnVertical ? 1 : undefined
+        rows: isOnVertical ? undefined : 1
 
         readonly property bool heightOverflow: trackInfo.implicitHeight > compactRoot.height
 
-        spacing: PlasmaCore.Units.smallSpacing
+        rowSpacing: PlasmaCore.Units.smallSpacing
+        columnSpacing: rowSpacing
 
         anchors {
-            fill: heightOverflow ? verticalCenterHelper : parent
+            fill: (isOnVertical || !heightOverflow) ? parent : verticalCenterHelper
             margins: 0
         }
 
@@ -117,8 +125,10 @@ Item {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             Layout.margins: 2   // To mimick the breeze icons internal margins and better adjust height
-            Layout.minimumWidth: height
-            Layout.preferredWidth: aspectRatio * height
+            Layout.minimumWidth: isOnVertical ? 0 : height
+            Layout.preferredWidth: isOnVertical ? width : height * aspectRatio
+            Layout.minimumHeight: isOnVertical ? width : 0
+            Layout.preferredHeight: isOnVertical ? width / aspectRatio : height
         }
 
         TrackInfo {
@@ -127,7 +137,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
-            textAlignment: Text.AlignLeft
+            textAlignment: isOnVertical ? Text.AlignHCenter : Text.AlignLeft
             oneLiner: compactRoot.height < PlasmaCore.Units.gridUnit * 1.5
             spacing: 0
         }
@@ -135,15 +145,15 @@ Item {
         PlayerControls {
             id: playerControls
             visible: plasmoid.configuration.showPlaybackControls
-            Layout.fillWidth: !trackInfo.visible
+            Layout.fillWidth: isOnVertical || !trackInfo.visible
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             compactView: true
+            canFitPrevNext: !isOnVertical || compactRoot.width > PlasmaCore.Units.iconSizes.smallMedium * 3
             controlSize: Math.max(PlasmaCore.Units.iconSizes.small,
+                                  isOnVertical ? Math.min(compactRoot.width / controlsCount, PlasmaCore.Units.iconSizes.large) :
                                   trackInfo.visible ? Math.min(parent.height, PlasmaCore.Units.iconSizes.large)
                                                     : parent.height)
         }
-
-        visible: !iconView
     }
 
     PlasmaCore.IconItem {
