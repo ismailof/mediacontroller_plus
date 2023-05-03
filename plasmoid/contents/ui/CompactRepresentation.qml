@@ -83,7 +83,7 @@ Item {
                 height: miniProgressBar.height
 
                 imagePath: "widgets/tasks"
-                prefix: ["progress", "hover"]
+                prefix: ["hover"]
             }
         }
     }
