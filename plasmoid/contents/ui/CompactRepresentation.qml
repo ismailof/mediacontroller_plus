@@ -20,28 +20,30 @@
 import QtQml 2.2
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
+import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.ksvg as KSvg
+
 
 Item {
     id: compactRoot
 
-    readonly property bool isOnVertical: plasmoid.formFactor === PlasmaCore.Types.Vertical
+    readonly property bool isOnVertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
 
     readonly property bool iconView: (width < PlasmaCore.Units.gridUnit * 2)
-                                        || (!plasmoid.configuration.showAlbumArt
-                                            && !plasmoid.configuration.showTrackInfo
-                                            && !plasmoid.configuration.showPlaybackControls)
+                                        || (!Plasmoid.configuration.showAlbumArt
+                                            && !Plasmoid.configuration.showTrackInfo
+                                            && !Plasmoid.configuration.showPlaybackControls)
 
-    Layout.fillWidth: isOnVertical || plasmoid.configuration.showTrackInfo
+    Layout.fillWidth: isOnVertical || Plasmoid.configuration.showTrackInfo
     Layout.fillHeight: !isOnVertical
 
-    Layout.minimumWidth: isOnVertical ? plasmoid.width : (iconView ? 1 : 5) * PlasmaCore.Units.gridUnit
-    Layout.preferredWidth: plasmoid.configuration.showTrackInfo ? (plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
+    Layout.minimumWidth: isOnVertical ? Plasmoid.width : (iconView ? 1 : 5) * PlasmaCore.Units.gridUnit
+    Layout.preferredWidth: Plasmoid.configuration.showTrackInfo ? (Plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
                                                                 : mainRow.implicitWidth
-    Layout.maximumWidth: isOnVertical ? plasmoid.width : plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit
+    Layout.maximumWidth: isOnVertical ? root.width : Plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit
 
-    Layout.preferredHeight: isOnVertical ? mainRow.implicitHeight : plasmoid.height
+    Layout.preferredHeight: isOnVertical ? mainRow.implicitHeight : root.height
 
     // HACK: To get the panel backgroud margins
     KSvg.Svg {
@@ -60,7 +62,7 @@ Item {
     Item {
         id: miniProgressBar
         z: 0
-        visible: plasmoid.configuration.showProgressBar && !iconView
+        visible: Plasmoid.configuration.showProgressBar && !iconView
 
         anchors.fill: parent
         // Negative margins to fill the panel. It seems simpler than
@@ -106,8 +108,8 @@ Item {
         z: 100
         visible: !iconView
 
-        columns: isOnVertical ? 1 : undefined
-        rows: isOnVertical ? undefined : 1
+        columns: isOnVertical ? 1 : -1
+        rows: isOnVertical ? -1 : 1
 
         readonly property bool heightOverflow: trackInfo.implicitHeight > compactRoot.height
 
@@ -121,7 +123,7 @@ Item {
 
         AlbumArt {
             id: albumArt
-            visible: plasmoid.configuration.showAlbumArt
+            visible: Plasmoid.configuration.showAlbumArt
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
@@ -134,7 +136,7 @@ Item {
 
         TrackInfo {
             id: trackInfo
-            visible: plasmoid.configuration.showTrackInfo
+            visible: Plasmoid.configuration.showTrackInfo
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
@@ -150,7 +152,7 @@ Item {
 
         PlayerControls {
             id: playerControls
-            visible: plasmoid.configuration.showPlaybackControls
+            visible: Plasmoid.configuration.showPlaybackControls
             Layout.fillWidth: isOnVertical || !trackInfo.visible
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             compactView: true
@@ -203,11 +205,11 @@ Item {
                     root.action_next()
                     break
                 default:
-                    plasmoid.expanded = !plasmoid.expanded
-                /*  if (!iconView && mpris2Source.currentData.CanRaise) {
+                    root.expanded = !root.expanded
+                    /*  if (!iconView && mpris2Source.currentData.CanRaise) {
                         root.action_open()
                     } else {
-                        plasmoid.expanded = !plasmoid.expanded
+                        roo.expanded = !root.expanded
                     }
                     */
             }

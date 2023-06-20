@@ -25,7 +25,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasma5support 2.0 as P5Support
 
 
-Item {
+PlasmoidItem {
     id: root
 
     property var currentMetadata: mpris2Source.currentData ? mpris2Source.currentData.Metadata : undefined
@@ -84,13 +84,13 @@ Item {
 
     property double position : mprisPosition
 
+    switchWidth: PlasmaCore.Units.gridUnit * 10
+    switchHeight: PlasmaCore.Units.gridUnit * 8
+    toolTipMainText: i18n("No media playing")
+    toolTipTextFormat: Text.PlainText
+    toolTipSubText: identity
 
-    Plasmoid.switchWidth: PlasmaCore.Units.gridUnit * 10
-    Plasmoid.switchHeight: PlasmaCore.Units.gridUnit * 8
     Plasmoid.icon: albumArt ? albumArt : "media-playback-playing"
-    Plasmoid.toolTipMainText: i18n("No media playing")
-    Plasmoid.toolTipSubText: identity
-    Plasmoid.toolTipTextFormat: Text.PlainText
     Plasmoid.status: PlasmaCore.Types.PassiveStatus
 
     Plasmoid.backgroundHints: PlasmaCore.Types.StandardBackground | PlasmaCore.Types.ConfigurableBackground
@@ -199,9 +199,9 @@ Item {
     }
 
 
-    Plasmoid.fullRepresentation: ExpandedRepresentation {}
+    fullRepresentation: ExpandedRepresentation {}
 
-    Plasmoid.compactRepresentation: CompactRepresentation {}
+    compactRepresentation: CompactRepresentation {}
 
     P5Support.DataSource {
         id: mpris2Source
@@ -341,10 +341,13 @@ Item {
             when: !root.noPlayer && mpris2Source.currentData.PlaybackStatus === "Playing"
 
             PropertyChanges {
-                target: plasmoid
-                icon: albumArt ? albumArt : "media-playback-playing"
+                target: root
                 toolTipMainText: track
                 toolTipSubText: artist ? i18nc("by Artist (player name)", "by %1 (%2)", artist, identity) : identity
+            }
+            PropertyChanges {
+                target: Plasmoid
+                icon: albumArt ? albumArt : "media-playback-playing"
             }
         },
         State {
@@ -352,10 +355,14 @@ Item {
             when: !root.noPlayer && mpris2Source.currentData.PlaybackStatus === "Paused"
 
             PropertyChanges {
-                target: plasmoid
-                icon: albumArt ? albumArt : "media-playback-paused"
+                target: root
                 toolTipMainText: track
-                toolTipSubText: artist ? i18nc("by Artist (paused, player name)", "by %1 (paused, %2)", artist, identity) : i18nc("Paused (player name)", "Paused (%1)", identity)
+                toolTipSubText: artist ? i18nc("by Artist (paused, player name)", "by %1 (paused, %2)", artist, identity)
+                                       : i18nc("Paused (player name)", "Paused (%1)", identity)
+            }
+            PropertyChanges {
+                target: Plasmoid
+                icon: albumArt ? albumArt : "media-playback-paused"
             }
         }
     ]
