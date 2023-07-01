@@ -21,6 +21,7 @@ import QtQml 2.2
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.ksvg as KSvg
 
 Item {
     id: compactRoot
@@ -43,7 +44,7 @@ Item {
     Layout.preferredHeight: isOnVertical ? mainRow.implicitHeight : plasmoid.height
 
     // HACK: To get the panel backgroud margins
-    PlasmaCore.Svg {
+    KSvg.Svg {
         id: marginsHelper
         imagePath: "widgets/panel-background"
 
@@ -78,7 +79,7 @@ Item {
             width: parent.width * root.position / root.length
             clip: true
 
-            PlasmaCore.FrameSvgItem {
+            KSvg.FrameSvgItem {
                 width: miniProgressBar.width
                 height: miniProgressBar.height
 
