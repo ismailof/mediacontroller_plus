@@ -185,7 +185,7 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.BackButton | Qt.ForwardButton
 
-        onWheel: {
+        onWheel: wheel => {
             var service = mpris2Source.serviceForSource(mpris2Source.current)
             var operation = service.operationDescription("ChangeVolume")
             operation.delta = (wheel.angleDelta.y / 120) * 0.03
@@ -193,7 +193,7 @@ Item {
             service.startOperationCall(operation)
         }
 
-        onClicked: {
+        onClicked: mouse => {
             switch (mouse.button) {
                 case Qt.MiddleButton:
                     root.togglePlaying()
