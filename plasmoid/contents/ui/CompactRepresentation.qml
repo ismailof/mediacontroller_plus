@@ -207,12 +207,6 @@ Item {
                     break
                 default:
                     root.expanded = !root.expanded
-                    /*  if (!iconView && mpris2Source.currentData.CanRaise) {
-                        root.action_open()
-                    } else {
-                        roo.expanded = !root.expanded
-                    }
-                    */
             }
         }
     }
