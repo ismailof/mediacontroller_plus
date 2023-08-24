@@ -23,6 +23,7 @@ import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.ksvg as KSvg
+import org.kde.kirigami 2 as Kirigami
 
 
 Item {
@@ -164,7 +165,7 @@ Item {
         }
     }
 
-    PlasmaCore.IconItem {
+    Kirigami.Icon {
         id: playerStatusIcon
 
         source: root.state === "playing" ? "media-playback-playing" :
@@ -200,7 +201,7 @@ Item {
                     break
                 case Qt.BackButton:
                     root.action_previous()
-                    breakPlasmaCore.Units.smallSpacing
+                    break
                 case Qt.ForwardButton:
                     root.action_next()
                     break

@@ -20,13 +20,14 @@
 
 import QtQuick 2.4
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kirigami 2 as Kirigami
 
 
 Item {
 
     readonly property real aspectRatio: albumArt.visible ? (albumArt.paintedWidth / albumArt.paintedHeight) : 1.0
 
-    PlasmaCore.IconItem {
+    Kirigami.Icon {
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
@@ -37,8 +38,6 @@ Item {
 
         source: mpris2Source.currentData["Desktop Icon Name"]
         visible: !albumArt.visible
-
-        usesPlasmaTheme: false
     }
 
     Image {
