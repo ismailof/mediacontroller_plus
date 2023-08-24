@@ -21,7 +21,7 @@ import QtQml 2.2
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.core 2.0 as PlasmaCore  // Required for KSvg
 import org.kde.ksvg as KSvg
 import org.kde.kirigami 2 as Kirigami
 
@@ -31,7 +31,7 @@ Item {
 
     readonly property bool isOnVertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
 
-    readonly property bool iconView: (width < PlasmaCore.Units.gridUnit * 2)
+    readonly property bool iconView: (width < Kirigami.Units.gridUnit * 2)
                                         || (!Plasmoid.configuration.showAlbumArt
                                             && !Plasmoid.configuration.showTrackInfo
                                             && !Plasmoid.configuration.showPlaybackControls)
@@ -39,10 +39,10 @@ Item {
     Layout.fillWidth: isOnVertical || Plasmoid.configuration.showTrackInfo
     Layout.fillHeight: !isOnVertical
 
-    Layout.minimumWidth: isOnVertical ? Plasmoid.width : (iconView ? 1 : 5) * PlasmaCore.Units.gridUnit
-    Layout.preferredWidth: Plasmoid.configuration.showTrackInfo ? (Plasmoid.configuration.minimumWidthUnits || 18) * PlasmaCore.Units.gridUnit
+    Layout.minimumWidth: isOnVertical ? Plasmoid.width : (iconView ? 1 : 5) * Kirigami.Units.gridUnit
+    Layout.preferredWidth: Plasmoid.configuration.showTrackInfo ? (Plasmoid.configuration.minimumWidthUnits || 18) * Kirigami.Units.gridUnit
                                                                 : mainRow.implicitWidth
-    Layout.maximumWidth: isOnVertical ? root.width : Plasmoid.configuration.maximumWidthUnits * PlasmaCore.Units.gridUnit
+    Layout.maximumWidth: isOnVertical ? root.width : Plasmoid.configuration.maximumWidthUnits * Kirigami.Units.gridUnit
 
     Layout.preferredHeight: isOnVertical ? mainRow.implicitHeight : root.height
 
@@ -56,7 +56,7 @@ Item {
                 print(elementSize("hint-top-margin").height)
                 return elementSize("hint-top-margin").height
             }
-            return PlasmaCore.Units.smallSpacing
+            return Kirigami.Units.smallSpacing
         }
     }
 
@@ -114,7 +114,7 @@ Item {
 
         readonly property bool heightOverflow: trackInfo.implicitHeight > compactRoot.height
 
-        rowSpacing: PlasmaCore.Units.smallSpacing
+        rowSpacing: Kirigami.Units.smallSpacing
         columnSpacing: rowSpacing
 
         anchors {
@@ -144,8 +144,8 @@ Item {
             textAlignment: isOnVertical ? Text.AlignHCenter : Text.AlignLeft
             lineLimit: {
                 if (isOnVertical) return 3;
-                if (compactRoot.height > PlasmaCore.Units.gridUnit * 3) return 3;
-                if (compactRoot.height > PlasmaCore.Units.gridUnit * 1.5) return 2;
+                if (compactRoot.height > Kirigami.Units.gridUnit * 3) return 3;
+                if (compactRoot.height > Kirigami.Units.gridUnit * 1.5) return 2;
                 return 1;
             }
             spacing: 0
@@ -157,10 +157,10 @@ Item {
             Layout.fillWidth: isOnVertical || !trackInfo.visible
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             compactView: true
-            canFitPrevNext: !isOnVertical || compactRoot.width > PlasmaCore.Units.iconSizes.smallMedium * 3
-            controlSize: Math.max(PlasmaCore.Units.iconSizes.small,
-                                  isOnVertical ? Math.min(compactRoot.width / controlsCount, PlasmaCore.Units.iconSizes.large) :
-                                  trackInfo.visible ? Math.min(parent.height, PlasmaCore.Units.iconSizes.large)
+            canFitPrevNext: !isOnVertical || compactRoot.width > Kirigami.Units.iconSizes.smallMedium * 3
+            controlSize: Math.max(Kirigami.Units.iconSizes.small,
+                                  isOnVertical ? Math.min(compactRoot.width / controlsCount, Kirigami.Units.iconSizes.large) :
+                                  trackInfo.visible ? Math.min(parent.height, Kirigami.Units.iconSizes.large)
                                                     : parent.height)
         }
     }

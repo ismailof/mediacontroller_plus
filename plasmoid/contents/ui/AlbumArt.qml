@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 import QtQuick 2.4
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kirigami 2 as Kirigami
 
 
@@ -33,7 +32,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-        height: Math.min(parent.height, Math.max(PlasmaCore.Units.iconSizes.large, Math.round(parent.height / 2)))
+        height: Math.min(parent.height, Math.max(Kirigami.Units.iconSizes.large, Math.round(parent.height / 2)))
         width: height
 
         source: mpris2Source.currentData["Desktop Icon Name"]

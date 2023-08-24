@@ -20,9 +20,8 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents3
-
+import org.kde.kirigami 2 as Kirigami
 
 RowLayout {
     id: playerControls
@@ -31,12 +30,12 @@ RowLayout {
     property bool compactView: false
     property bool canFitPrevNext: true
 
-    property int controlSize: PlasmaCore.Units.iconSizes.huge
+    property int controlSize: Kirigami.Units.iconSizes.huge
     readonly property int controlSmallerSize: Math.min(controlSize,
-                                                       Math.max(Math.round(controlSize / 1.25), PlasmaCore.Units.iconSizes.medium))
+                                                       Math.max(Math.round(controlSize / 1.25), Kirigami.Units.iconSizes.medium))
     readonly property int controlsCount : 1 + (prevButton.visible ? 1 : 0) +  (nextButton.visible ? 1 : 0)
 
-    spacing: compactView ?  0 : PlasmaCore.Units.largeSpacing
+    spacing: compactView ?  0 : Kirigami.Units.largeSpacing
 
     PlasmaComponents3.ToolButton {
         id: prevButton

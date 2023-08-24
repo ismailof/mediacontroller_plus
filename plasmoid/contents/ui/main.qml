@@ -22,6 +22,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kirigami 2 as Kirigami
 import org.kde.plasma.plasma5support 2.0 as P5Support
 
 
@@ -84,8 +85,8 @@ PlasmoidItem {
 
     property double position : mprisPosition
 
-    switchWidth: PlasmaCore.Units.gridUnit * 10
-    switchHeight: PlasmaCore.Units.gridUnit * 8
+    switchWidth: Kirigami.Units.gridUnit * 10
+    switchHeight: Kirigami.Units.gridUnit * 8
     toolTipMainText: i18n("No media playing")
     toolTipTextFormat: Text.PlainText
     toolTipSubText: identity

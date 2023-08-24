@@ -21,18 +21,18 @@
 
 import QtQuick 2.5
 import QtQuick.Layouts 1.3
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.coreaddons 1.0 as KCoreAddons
+import org.kde.kirigami 2 as Kirigami
 
 
 Item {
     id: expandedRepresentation
 
     Layout.minimumWidth: Layout.minimumHeight * 1.5
-    Layout.minimumHeight: PlasmaCore.Units.gridUnit * 7
+    Layout.minimumHeight: Kirigami.Units.gridUnit * 7
     Layout.preferredWidth: Layout.preferredHeight * 1.5
-    Layout.preferredHeight: PlasmaCore.Units.gridUnit * 22
+    Layout.preferredHeight: Kirigami.Units.gridUnit * 22
 
     readonly property bool verticalView: width / height < 1.8
 
@@ -95,7 +95,7 @@ Item {
     PlasmaComponents3.TabBar {
         id: playerSelector
         width: parent.width
-        height: visible ? PlasmaCore.Units.gridUnit * 2 : 0
+        height: visible ? Kirigami.Units.gridUnit * 2 : 0
 
         anchors {
             top: parent.top
@@ -143,7 +143,7 @@ Item {
             top: playerSelector.bottom
             right: verticalView? parent.right : controlCol.left
             bottom: verticalView? controlCol.top: parent.bottom
-            margins: PlasmaCore.Units.smallSpacing
+            margins: Kirigami.Units.smallSpacing
         }
     }
 
@@ -153,18 +153,18 @@ Item {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        spacing: PlasmaCore.Units.smallSpacing
+        spacing: Kirigami.Units.smallSpacing
 
         RowLayout {
             id: progress
 
-            spacing: PlasmaCore.Units.smallSpacing
+            spacing: Kirigami.Units.smallSpacing
 
             // if there's no "mpris:length" in the metadata, we cannot seek, so hide it in that case
             enabled: !root.noPlayer && root.track && root.length > 0 ? true : false
             opacity: enabled ? 1 : 0
             Behavior on opacity {
-                NumberAnimation { duration: PlasmaCore.Units.longDuration }
+                NumberAnimation { duration: Kirigami.Units.longDuration }
             }
 
             // ensure the layout doesn't shift as the numbers change and measure roughly the longest text that could occur with the current song
@@ -172,7 +172,7 @@ Item {
                 id: timeMetrics
                 text: i18nc("Remaining time for song e.g -5:42", "-%1",
                             KCoreAddons.Format.formatDuration(seekSlider.to / 1000, expandedRepresentation.durationFormattingOptions))
-                font: PlasmaCore.Theme.smallestFont
+                font: Kirigami.Theme.smallFont
             }
 
             PlasmaComponents3.Label {
@@ -181,7 +181,7 @@ Item {
                 horizontalAlignment: Text.AlignRight
                 text: KCoreAddons.Format.formatDuration(seekSlider.value / 1000, expandedRepresentation.durationFormattingOptions)
                 opacity: 0.9
-                font: PlasmaCore.Theme.smallestFont
+                font: Kirigami.Theme.smallFont
             }
 
             PlasmaComponents3.Slider {
@@ -237,7 +237,7 @@ Item {
                 text: i18nc("Remaining time for song e.g -5:42", "-%1",
                             KCoreAddons.Format.formatDuration((seekSlider.to - seekSlider.value) / 1000, expandedRepresentation.durationFormattingOptions))
                 opacity: 0.9
-                font: PlasmaCore.Theme.smallestFont
+                font: Kirigami.Theme.smallFont
             }
         }
 

@@ -20,7 +20,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.5 as QQC2
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-import org.kde.kirigami 2.14 as Kirigami
+import org.kde.kirigami 2 as Kirigami
 
 
 Item {
@@ -66,15 +66,15 @@ Item {
             Kirigami.FormData.label: i18n("Width Range:")
 
             enabled: cfg_showTrackInfo && plasmoid.formFactor === PlasmaCore.Types.Horizontal
-            spacing: PlasmaCore.Units.smallSpacing
+            spacing: Kirigami.Units.smallSpacing
 
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
-            Layout.bottomMargin: PlasmaCore.Units.largeSpacing
+            Layout.bottomMargin: Kirigami.Units.largeSpacing
 
             QQC2.Label {
                 id: lbl_minWidth
-                text: Math.round(widthSlider.proxyFirstValue * PlasmaCore.Units.gridUnit) + "px"
+                text: Math.round(widthSlider.proxyFirstValue * Kirigami.Units.gridUnit) + "px"
                 Layout.preferredWidth: 50
                 horizontalAlignment: Text.AlignRight
             }
@@ -102,7 +102,7 @@ Item {
             QQC2.Label {
                 id: lbl_maximumWidth
                 text: (widthSlider.second.position == 1.0) ? i18n("No limit")
-                                                           : Math.round(widthSlider.proxySecondValue * PlasmaCore.Units.gridUnit) + "px"
+                                                           : Math.round(widthSlider.proxySecondValue * Kirigami.Units.gridUnit) + "px"
                 Layout.preferredWidth: 50
                 horizontalAlignment: Text.AlignLeft
             }
