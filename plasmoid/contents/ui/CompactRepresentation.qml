@@ -168,9 +168,9 @@ Item {
     Kirigami.Icon {
         id: playerStatusIcon
 
-        source: root.state === "playing" ? "media-playback-playing" :
-                root.state === "paused" ?  "media-playback-paused" :
-                                            "media-playback-stopped"
+        source: root.state === "playing" ? "media-playback-playing-symbolic" :
+                root.state === "paused" ?  "media-playback-paused-symbolic" :
+                                            "media-playback-stopped-symbolic"
         active: compactMouse.containsMouse
         visible: iconView
 
